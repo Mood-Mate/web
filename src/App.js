@@ -1,25 +1,37 @@
-import logo from './logo.svg';
 import './App.css';
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import Profile from "./pages/profile";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const myTheme = createTheme({
+        palette: {
+            primary: {
+                main: 'rgb(153, 114, 107)',
+                darker: '#053e85',
+            },
+            secondary: {
+                main: '#F0DBDB',
+                darker: '#053e85',
+            },
+            tertiary: {
+                main: '#F5EBE0',
+                darker: '#053e85',
+            },
+            background : {
+                default: '#FFF8EA',
+                dark: '#053e85',
+            }
+
+        }
+    });
+    return (
+
+            <ThemeProvider theme={myTheme} >
+                <Profile />
+            </ThemeProvider>
+
+
+    );
 }
 
 export default App;
