@@ -17,8 +17,9 @@ function App() {
                 main: '#F5EBE0',
                 darker: '#053e85',
             },
+            divider: 'rgba(153,114,107,0.38)',
             background : {
-                default: '#FFF8EA',
+                default: 'rgba(255,246,241,0.55)',
                 dark: '#053e85',
             }
 
