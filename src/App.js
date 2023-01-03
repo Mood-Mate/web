@@ -6,21 +6,17 @@ function App() {
     const myTheme = createTheme({
         palette: {
             primary: {
-                main: 'rgb(153, 114, 107)',
-                darker: '#053e85',
+                main: '#8EC3B0',
             },
             secondary: {
-                main: '#F0DBDB',
-                darker: '#053e85',
+                main: '#9ED5C5',
             },
             tertiary: {
-                main: '#F5EBE0',
-                darker: '#053e85',
+                main: '#BCEAD5',
             },
-            divider: 'rgba(153,114,107,0.38)',
+            divider: '#9ED5C5',
             background : {
-                default: 'rgba(255,246,241,0.55)',
-                dark: '#053e85',
+                default: '#DEF5E5',
             }
 
         }

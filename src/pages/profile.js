@@ -22,7 +22,7 @@ export default function Profile() {
                     <ProfileBox />
                     <Calender />
                 </Box>
-                <Box sx={{maxWidth:760,flexGrow: 2,}} >
+                <Box sx={{maxWidth:760,flexGrow: 1,}} >
                     {diaryData.map((data) => (
                          <Diary key={data.id} data={data} style={boxStyle} />))}
                 </Box>
