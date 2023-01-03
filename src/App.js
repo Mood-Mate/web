@@ -1,6 +1,9 @@
 import './App.css';
 import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Profile from "./pages/profile";
+import SignIn from "./pages/signIn";
+import CssBaseline from "@mui/material/CssBaseline";
+import * as React from "react";
 
 function App() {
     const myTheme = createTheme({
@@ -14,17 +17,20 @@ function App() {
             tertiary: {
                 main: '#BCEAD5',
             },
+            quaternary: {
+                main: '#DEF5E5',
+            },
             divider: '#9ED5C5',
-            background : {
-                default: '#DEF5E5',
-            }
+
 
         }
     });
     return (
 
             <ThemeProvider theme={myTheme} >
-                <Profile />
+                <CssBaseline />
+                <SignIn />
+                {/*<Profile />*/}
             </ThemeProvider>
 
 
