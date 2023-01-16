@@ -4,50 +4,39 @@ import Topbutton from '../components/Mainpage/topbutton';
 import Diary from '../components/Mainpage/diary';
 import TopProfile from '../components/Mainpage/topProfile';
 import TopGuestbook from '../components/Mainpage/topGuestbook';
+import { useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 
 export default function Mainpage() {
+	const isMobile = useMediaQuery('(max-width: 600px)');
 	const boxStyle = {
+		display: 'flex',
+		flexDirection: 'column',
+		alignItems: 'center',
 		borderRadius: 2,
 		border: 2,
 		borderColor: 'primary.main',
 		backgroundColor: 'background.default',
-		width: '60%',
-		padding: 1,
+		width: '80%',
+		margin: 5,
+		padding: 2,
 	};
 	return (
 		<>
 			<AppBar />
-			<Box
-				sx={{
-					display: 'grid',
-					gridTemplateColumns: '5fr  3fr 2fr',
-					alignItems: 'center',
-					margin: 2,
-				}}
-			>
-				<Box sx={{ display: 'flex', justifyContent: 'center' }}>
-					<TopProfile></TopProfile>
-				</Box>
-				<Box sx={{ display: 'flex', justifyContent: 'end' }}>
-					<TopGuestbook />
-				</Box>
+			<Box sx={{ margin: 2 }}>
 				<Box sx={{ display: 'flex', justifyContent: 'end' }}>
 					<Topbutton></Topbutton>
 				</Box>
 			</Box>
 
-			<Box
-				sx={{
-					display: 'grid',
-					gridTemplateColumns: '1fr 1fr',
-					justifyItems: 'center',
-				}}
-			>
+			<Box sx={{ display: 'flex', flexDirection: isMobile ? 'column' : 'row' }}>
 				<Box sx={{ ...boxStyle }}>
+					<TopProfile />
 					<Diary></Diary>
 				</Box>
 				<Box sx={{ ...boxStyle }}>
+					<TopGuestbook />
 					<Guestbook></Guestbook>
 				</Box>
 			</Box>
