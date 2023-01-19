@@ -1,10 +1,8 @@
 import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import Profile from './pages/profile';
-import Mainpage from './pages/main';
-import { ThemeProvider, createTheme } from "@mui/material/styles";
-import Profile from "./pages/profile";
-import SignIn from "./pages/signIn";
+import Profile from 'pages/profile';
+import Mainpage from 'pages/main';
+import SignIn from "pages/signIn";
 import CssBaseline from "@mui/material/CssBaseline";
 import * as React from "react";
 
