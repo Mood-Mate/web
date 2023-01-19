@@ -4,9 +4,9 @@ import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import {Divider} from "@mui/material";
-import Logos from "../components/SignIn/logos";
-import SignInForm from "../components/SignIn/sigeInForm";
-import SocialLoginButton from "../components/SignIn/socialLoginButton";
+import Logos from "components/SignIn/logos";
+import SignInForm from "components/SignIn/sigeInForm";
+import SocialLoginButton from "components/SignIn/socialLoginButton";
 
 
 function Copyright(props) {
