@@ -1,13 +1,13 @@
 import AppBar from '../components/appbar';
-import Guestbook from '../components/Mainpage/guestbook';
-import Topbutton from '../components/Mainpage/topbutton';
-import Diary from '../components/Mainpage/diary';
-import TopProfile from '../components/Mainpage/topProfile';
-import TopGuestbook from '../components/Mainpage/topGuestbook';
+import Guestbook from '../components/Home/guestbook';
+import Topbutton from '../components/Home/topbutton';
+import Diary from '../components/Home/diary';
+import TopProfile from '../components/Home/topProfile';
+import TopGuestbook from '../components/Home/topGuestbook';
 import { useMediaQuery } from '@mui/material';
 import { Box } from '@mui/system';
 
-export default function Mainpage() {
+export default function Home() {
     const isMobile = useMediaQuery('(max-width: 600px)');
     const boxStyle = {
         display: 'flex',
