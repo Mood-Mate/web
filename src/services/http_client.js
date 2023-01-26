@@ -16,8 +16,8 @@ httpClient.interceptors.request.use(
         const token = cookie.load('access_token');
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
-            return config;
         }
+        return config;
     },
     (error) => {
         if (error.response) {
