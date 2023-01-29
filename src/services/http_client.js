@@ -6,7 +6,7 @@ let baseURL = secure.baseUrl;
 
 const httpClient = axios.create({
     baseURL,
-    timeout: 1000,
+    //timeout: 1000,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
 });
