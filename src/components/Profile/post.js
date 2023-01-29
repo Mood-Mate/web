@@ -6,9 +6,11 @@ import Comments from './comments';
 export default function Post(props) {
     return (
         <Box sx={props.style}>
-            <Diary />
+            <Diary data={props.data} />
             <Emojis />
-            <Comments data={props.data} />
+            <Comments />
+
+            {/*<Comments data={props.data} />*/}
         </Box>
     );
 }
