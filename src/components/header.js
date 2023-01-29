@@ -4,16 +4,17 @@ import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
 import Toolbar from '@mui/material/Toolbar';
 import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
 import InputBase from '@mui/material/InputBase';
 import Badge from '@mui/material/Badge';
 import MenuItem from '@mui/material/MenuItem';
 import Menu from '@mui/material/Menu';
 import SearchIcon from '@mui/icons-material/Search';
-import AccountCircle from '@mui/icons-material/AccountCircle';
-import MailIcon from '@mui/icons-material/Mail';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
+import SettingsIcon from '@mui/icons-material/Settings';
+import EditIcon from '@mui/icons-material/Edit';
+import { useNavigate } from 'react-router-dom';
+import { Button } from '@mui/material';
 
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
@@ -58,6 +59,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
 export default function PrimarySearchAppBar() {
     const [anchorEl, setAnchorEl] = React.useState(null);
     const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
+    const navigate = useNavigate();
 
     const isMenuOpen = Boolean(anchorEl);
     const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
@@ -79,6 +81,11 @@ export default function PrimarySearchAppBar() {
         setMobileMoreAnchorEl(event.currentTarget);
     };
 
+    const handleEditorClick = () => {
+        console.log('editor clicked');
+        navigate('/editor');
+    };
+
     const menuId = 'primary-search-account-menu';
     const renderMenu = (
         <Menu
@@ -94,8 +101,7 @@ export default function PrimarySearchAppBar() {
                 horizontal: 'right',
             }}
             open={isMenuOpen}
-            onClose={handleMenuClose}
-        >
+            onClose={handleMenuClose}>
             <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
             <MenuItem onClick={handleMenuClose}>My account</MenuItem>
         </Menu>
@@ -116,27 +122,24 @@ export default function PrimarySearchAppBar() {
                 horizontal: 'right',
             }}
             open={isMobileMenuOpen}
-            onClose={handleMobileMenuClose}
-        >
+            onClose={handleMobileMenuClose}>
             <MenuItem>
-                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                    <Badge badgeContent={4} color="error">
-                        <MailIcon />
-                    </Badge>
-                </IconButton>
-                <p>Messages</p>
-            </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 17 new notifications"
-                    color="inherit"
-                >
+                <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
                     <Badge badgeContent={17} color="error">
                         <NotificationsIcon />
                     </Badge>
                 </IconButton>
                 <p>Notifications</p>
+            </MenuItem>
+            <MenuItem>
+                <IconButton
+                    size="large"
+                    aria-label="show 4 new mails"
+                    color="inherit"
+                    onClick={handleEditorClick}>
+                    <EditIcon />
+                </IconButton>
+                <p>글쓰기</p>
             </MenuItem>
             <MenuItem onClick={handleProfileMenuOpen}>
                 <IconButton
@@ -144,9 +147,8 @@ export default function PrimarySearchAppBar() {
                     aria-label="account of current user"
                     aria-controls="primary-search-account-menu"
                     aria-haspopup="true"
-                    color="inherit"
-                >
-                    <AccountCircle />
+                    color="inherit">
+                    <SettingsIcon />
                 </IconButton>
                 <p>Profile</p>
             </MenuItem>
@@ -157,16 +159,18 @@ export default function PrimarySearchAppBar() {
         <Box sx={{ flexGrow: 1 }}>
             <AppBar position="static">
                 <Toolbar>
-                    <Typography
-                        variant="h6"
-                        noWrap
-                        component="div"
-                        sx={{ display: { xs: 'none', sm: 'block' } ,flexGrow: 1}}
-                        align={'center'}
-                    >
-                        Diary
-                    </Typography>
-                    <Search sx={{flexGrow: 1,margin:'auto',maxWidth:400}}>
+                    <Box
+                        sx={{
+                            display: { xs: 'none', md: 'flex' },
+                            flexGrow: 1,
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                        }}>
+                        <Button color={'inherit'} variant="text" onClick={() => navigate('/')}>
+                            Diary
+                        </Button>
+                    </Box>
+                    <Search sx={{ flexGrow: 1, margin: 'auto', maxWidth: 400 }}>
                         <SearchIconWrapper>
                             <SearchIcon />
                         </SearchIconWrapper>
@@ -175,17 +179,23 @@ export default function PrimarySearchAppBar() {
                             inputProps={{ 'aria-label': 'search' }}
                         />
                     </Search>
-                    <Box sx={{ display: { xs: 'none', md: 'flex' } ,flexGrow: 1,justifyContent: 'center'}}>
-                        <IconButton size="large" aria-label="show 4 new mails" color="inherit">
-                            <Badge badgeContent={4} color="error">
-                                <MailIcon />
-                            </Badge>
+                    <Box
+                        sx={{
+                            display: { xs: 'none', md: 'flex' },
+                            flexGrow: 1,
+                            justifyContent: 'center',
+                        }}>
+                        <IconButton
+                            size="large"
+                            aria-label="show 4 new mails"
+                            color="inherit"
+                            onClick={handleEditorClick}>
+                            <EditIcon />
                         </IconButton>
                         <IconButton
                             size="large"
                             aria-label="show 17 new notifications"
-                            color="inherit"
-                        >
+                            color="inherit">
                             <Badge badgeContent={17} color="error">
                                 <NotificationsIcon />
                             </Badge>
@@ -197,20 +207,18 @@ export default function PrimarySearchAppBar() {
                             aria-controls={menuId}
                             aria-haspopup="true"
                             onClick={handleProfileMenuOpen}
-                            color="inherit"
-                        >
-                            <AccountCircle />
+                            color="inherit">
+                            <SettingsIcon />
                         </IconButton>
                     </Box>
-                    <Box sx={{ display: { xs: 'flex', md: 'none' }}}>
+                    <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
                         <IconButton
                             size="large"
                             aria-label="show more"
                             aria-controls={mobileMenuId}
                             aria-haspopup="true"
                             onClick={handleMobileMenuOpen}
-                            color="inherit"
-                        >
+                            color="inherit">
                             <MoreIcon />
                         </IconButton>
                     </Box>

@@ -5,24 +5,33 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Link from '@mui/material/Link';
-import * as React from 'react';
 import authService from 'services/auth_api';
+import { useNavigate } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
+import { userState } from '../../atom/auth';
+
 export default function SignInForm() {
-    const handleSubmit = (event) => {
+    const navigate = useNavigate();
+    const setUser = useSetRecoilState(userState);
+    const handleSubmit = async (event) => {
         event.preventDefault();
         const data = new FormData(event.currentTarget);
-        try {
-            const response = authService.login(data.get('email'), data.get('password'));
-
-            console.log(response);
-        } catch (e) {
-            console.log(e);
-        }
-
         console.log({
             email: data.get('email'),
             password: data.get('password'),
         });
+        const response = await authService.login(data.get('email'), data.get('password'));
+        handleResponse('email', response);
+    };
+
+    const handleResponse = (vendor, response) => {
+        if (response?.data) {
+            setUser({ isLogin: true, vendor, id: response.data['memberId'] });
+            console.log('로그인 완료');
+            navigate('/');
+        } else {
+            alert('로그인 실패');
+        }
     };
 
     return (
