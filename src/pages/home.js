@@ -1,4 +1,4 @@
-import AppBar from '../components/appbar';
+import AppBar from '../components/header    ';
 import Guestbook from '../components/Home/guestbook';
 import Topbutton from '../components/Home/topbutton';
 import Diary from '../components/Home/diary';
