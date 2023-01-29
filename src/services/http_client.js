@@ -1,11 +1,8 @@
 import axios from 'axios';
-import secure from '../secure/secure';
 import cookie from 'react-cookies';
 
-let baseURL = secure.baseUrl;
-
 const httpClient = axios.create({
-    baseURL,
+    baseURL: process.env.REACT_APP_API_URL,
     //timeout: 1000,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
