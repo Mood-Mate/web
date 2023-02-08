@@ -17,12 +17,14 @@ class Auth {
     };
     getUser = async (token) => {
         try {
-            const expires = new Date();
-            expires.setDate(expires.getDate() + 1); // 1일동안 쿠키 유지
-            cookie.save('access_token', token, {
-                path: '/',
-                expires,
-            });
+            if (token) {
+                const expires = new Date();
+                expires.setDate(expires.getDate() + 1); // 1일동안 쿠키 유지
+                cookie.save('access_token', token, {
+                    path: '/',
+                    expires,
+                });
+            }
             const response = await client.post('member/auth');
             console.log(response);
 
