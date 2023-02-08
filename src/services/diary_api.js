@@ -1,7 +1,7 @@
 import client from './http_client';
 
 class Diary {
-    getDiary = async (memberId, date) => {
+    getDiaryByDate = async (memberId, date) => {
         try {
             console.log('getDiary');
             const response = await client.get('diary/someone', {
@@ -49,9 +49,48 @@ class Diary {
     deleteDiary = async (id) => {
         try {
             console.log('deleteDiary');
-            await client.delete('diary/delete', {
+            await client.delete(`diary/delete/${id}`);
+            console.log('성공');
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    };
+
+    postComment = async (diaryId, contents) => {
+        try {
+            console.log('postComment');
+            const response = await client.post(`diary/reply/${diaryId}`, contents);
+            console.log(response);
+            console.log('성공');
+            return response;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    };
+
+    editComment = async (commentId, contents) => {
+        try {
+            console.log('editComment');
+            await client.put('comment/edit', {
+                commentId,
+                contents,
+            });
+            console.log('성공');
+            return true;
+        } catch (error) {
+            console.log(error);
+            return false;
+        }
+    };
+    deleteComment = async (commentId) => {
+        try {
+            console.log('deleteComment');
+            await client.delete('comment/delete', {
                 data: {
-                    diaryId: id,
+                    commentId,
                 },
             });
             console.log('성공');

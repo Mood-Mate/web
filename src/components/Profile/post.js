@@ -8,9 +8,7 @@ export default function Post(props) {
         <Box sx={props.style}>
             <Diary data={props.data} />
             <Emojis />
-            <Comments />
-
-            {/*<Comments data={props.data} />*/}
+            <Comments data={props.data} />
         </Box>
     );
 }
