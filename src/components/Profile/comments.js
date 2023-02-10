@@ -3,7 +3,7 @@ import Typography from '@mui/material/Typography';
 import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
 import diaryService from '../../services/diary_api';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 import { diaryState } from '../../atom/dairy';
 
 export default function Comments(props) {
@@ -48,7 +48,7 @@ export default function Comments(props) {
                 <Stack spacing={1}>
                     {props.data.comments.map((comment) => (
                         <Box
-                            key={comment.commentId}
+                            key={comment.diaryCommentId}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'flex-start',
