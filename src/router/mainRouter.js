@@ -20,9 +20,9 @@ export default function MainRouter() {
             if (response?.data) {
                 console.log('로그인 유지');
                 setUser({ isLogin: true, vendor: 'email', id: response.data['memberId'] });
-                setInit(true);
             }
         }
+        setInit(true);
     }
 
     useEffect(() => {
