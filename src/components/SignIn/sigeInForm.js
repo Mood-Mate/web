@@ -4,12 +4,12 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import Link from '@mui/material/Link';
 import authService from 'services/auth_api';
 import { useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../atom/auth';
 
+//todo: 회원가입페이지랑 link 하고 signup router 추가하기
 export default function SignInForm() {
     const navigate = useNavigate();
     const setUser = useSetRecoilState(userState);
@@ -65,14 +65,14 @@ export default function SignInForm() {
             </Button>
             <Grid container>
                 <Grid item xs>
-                    <Link href="#" variant="body2">
-                        아이디 / 비밀번호 찾기
-                    </Link>
+                    {/*<Link href="#" variant="body2">*/}
+                    {/*    아이디 / 비밀번호 찾기*/}
+                    {/*</Link>*/}
                 </Grid>
                 <Grid item>
-                    <Link href="#" variant="body2">
-                        회원가입하기
-                    </Link>
+                    {/*<Link href="#" variant="body2">*/}
+                    {/*    회원가입하기*/}
+                    {/*</Link>*/}
                 </Grid>
             </Grid>
         </Box>

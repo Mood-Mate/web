@@ -3,13 +3,13 @@ import { Box, Typography } from '@mui/material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import ProfileBox from '../components/Profile/profileBox';
 import Calender from '../components/Profile/calender';
-// import DATA from '../components/Profile/data';
 import Post from '../components/Profile/post';
 import { useRecoilValue } from 'recoil';
 import { diaryState } from 'atom/dairy';
+import GuestBook from '../components/Profile/guestBook';
 
 export default function Profile() {
-    const isMobile = useMediaQuery('(max-width: 600px)');
+    const isMobile = useMediaQuery('(max-width: 700px)');
     const diaryData = useRecoilValue(diaryState);
     const boxStyle = {
         borderRadius: 2,
@@ -30,12 +30,15 @@ export default function Profile() {
                     alignItems: 'flex-start',
                     padding: 1,
                 }}>
-                <Box sx={{ ...boxStyle, width: 320 }}>
-                    <ProfileBox />
-                    <Calender />
+                <Box sx={{ width: isMobile ? '100%' : 350, minWidth: 350 }}>
+                    <Box sx={{ ...boxStyle }}>
+                        <ProfileBox />
+                        <Calender />
+                    </Box>
+                    <GuestBook style={boxStyle} />
                 </Box>
 
-                <Box sx={{ maxWidth: 760, minWidth: 350, flexGrow: 1 }}>
+                <Box sx={{ maxWidth: 760, minWidth: 350, width: '100%' }}>
                     {diaryData.length > 0 ? (
                         diaryData.map((data) => (
                             <Post key={data['diaryId']} data={data} style={boxStyle} />
