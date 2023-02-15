@@ -4,7 +4,7 @@ import cookie from 'react-cookies';
 const httpClient = axios.create({
     baseURL: process.env.REACT_APP_API_URL,
     //timeout: 1000,
-    headers: { 'Content-Type': 'application/json' },
+    headers: { 'Content-Type': 'multipart/form-data' },
     withCredentials: true,
 });
 
