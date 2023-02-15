@@ -27,6 +27,7 @@ export default function Editor() {
         borderColor: 'primary.main',
         padding: 2,
         margin: 2,
+        backgroundColor: 'background.box',
     };
     const handleSummit = (e) => {
         e.preventDefault();
@@ -63,7 +64,7 @@ export default function Editor() {
     };
     return (
         <Container maxWidth="md">
-            <Box sx={{ ...boxStyle, border: 0, paddingY: 0 }}>
+            <Box sx={{ paddingX: 3, marginTop: 4 }}>
                 <p>오늘의 일기</p>
             </Box>
 
@@ -92,9 +93,7 @@ export default function Editor() {
                 </Box>
                 <Box
                     sx={{
-                        ...boxStyle,
-                        border: 0,
-                        padding: 0,
+                        paddingX: 2,
                         display: 'flex',
                         justifyContent: 'flex-end',
                     }}>

@@ -17,6 +17,7 @@ export default function Profile() {
         borderColor: 'primary.main',
         padding: 2,
         margin: 2,
+        backgroundColor: 'background.box',
     };
     return (
         <div className="profile">
