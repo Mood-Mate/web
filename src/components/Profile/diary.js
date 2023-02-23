@@ -3,14 +3,16 @@ import { Box, Button, Dialog, DialogActions, DialogTitle, IconButton } from '@mu
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { diaryState } from '../../atom/dairy';
 import diaryService from '../../services/diary_api';
 import { useNavigate } from 'react-router-dom';
+import { userState } from '../../atom/auth';
 export default function Diary(props) {
     const [open, setOpen] = useState(false);
     const setDiary = useSetRecoilState(diaryState);
     const navigate = useNavigate();
+    const user = useRecoilValue(userState);
 
     const handleEdit = () => {
         console.log('edit');
@@ -44,21 +46,26 @@ export default function Diary(props) {
     };
     return (
         <Box sx={{ mb: 1 }}>
-            <IconButton sx={{ float: 'right' }} size="small" onClick={handleDelete}>
-                <DeleteIcon />
-            </IconButton>
-            <IconButton sx={{ float: 'right' }} size="small" onClick={handleEdit}>
-                <EditIcon />
-            </IconButton>
+            {user.id === props.data.memberId ? (
+                <>
+                    <IconButton sx={{ float: 'right' }} size="small" onClick={handleDelete}>
+                        <DeleteIcon />
+                    </IconButton>
+                    <IconButton sx={{ float: 'right' }} size="small" onClick={handleEdit}>
+                        <EditIcon />
+                    </IconButton>
+                    <DeleteAlert
+                        open={open}
+                        handleDisagreeDelete={handleDisagreeDelete}
+                        handleAgreeDelete={handleAgreeDelete}
+                    />
+                </>
+            ) : null}
+
             <Typography variant="h5" sx={{ paddingY: 1 }}>
                 {props.data.title}
             </Typography>
             <Typography sx={{ whiteSpace: 'pre-line' }}>{props.data.contents}</Typography>
-            <DeleteAlert
-                open={open}
-                handleDisagreeDelete={handleDisagreeDelete}
-                handleAgreeDelete={handleAgreeDelete}
-            />
         </Box>
     );
 }

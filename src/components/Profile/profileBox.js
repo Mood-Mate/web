@@ -1,7 +1,20 @@
 import { Avatar, Box } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-export default function ProfileBox() {
+export default function ProfileBox(props) {
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        if (props.userId) {
+            authService.getUserInfoById(props.userId).then((res) => {
+                if (res) {
+                    console.log(res);
+                    setUser(res);
+                } else {
+                    alert('유저 정보를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+    }, [props.userId]);
     return (
         <>
             <Box

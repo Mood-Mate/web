@@ -5,23 +5,22 @@ import dayjs from 'dayjs';
 import { CalendarPicker, LocalizationProvider, PickersDay } from '@mui/x-date-pickers';
 import { styled } from '@mui/material/styles';
 import 'dayjs/locale/ko';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { userState } from 'atom/auth';
+import { useSetRecoilState } from 'recoil';
+
 import { diaryState } from 'atom/dairy';
 import diaryService from '../../services/diary_api';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Badge, Box } from '@mui/material';
 
-export default function Calender() {
+export default function Calender({ userId }) {
     const [date, setDate] = useState(dayjs());
-    const user = useRecoilValue(userState);
     const setDiary = useSetRecoilState(diaryState);
     let diaryDays = null;
     const [init, setInit] = useState(false);
 
     const handleEvents = (newDate) => {
         console.log('getEvents', newDate);
-        diaryService.getDiaryEvent(user.id, newDate).then((response) => {
+        diaryService.getDiaryEvent(userId, newDate).then((response) => {
             if (response?.data) {
                 //console.log('diaryDays', Array.from(new Set(response.data)));
                 diaryDays = Array.from(new Set(response.data));
@@ -34,16 +33,18 @@ export default function Calender() {
     };
 
     useEffect(() => {
-        handleEvents(date.format('YY-M-D'));
-        diaryService.getDiaryByDate(user.id, date.format('YY-M-D')).then((res) => {
-            if (res) {
-                console.log(res.data);
-                setDiary(res.data);
-            } else {
-                alert('일기를 불러오는데 실패했습니다.');
-            }
-        });
-    }, [date]);
+        if (userId) {
+            handleEvents(date.format('YY-M-D'));
+            diaryService.getDiaryByDate(userId, date.format('YY-M-D')).then((res) => {
+                if (res) {
+                    console.log(res.data);
+                    setDiary(res.data);
+                } else {
+                    alert('일기를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+    }, [date, userId]);
 
     const CustomCalendarPicker = styled(CalendarPicker)`
         margin: 0;
