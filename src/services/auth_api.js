@@ -53,6 +53,21 @@ class Auth {
             return null;
         }
     };
+
+    getUserByKeyword = async (keyword) => {
+        try {
+            const response = await client.get(`member`, {
+                params: {
+                    keyword: keyword,
+                },
+            });
+            console.log(response);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
 }
 
 const authService = new Auth();
