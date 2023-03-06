@@ -2,15 +2,18 @@ import axios from 'axios';
 import cookie from 'react-cookies';
 
 const httpClient = axios.create({
-    baseURL: process.env.REACT_APP_API_URL,
+    baseURL: process.env.REACT_APP_API_URL + '/api/',
     //timeout: 1000,
-    headers: { 'Content-Type': 'multipart/form-data' },
+    headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
 });
 
 httpClient.interceptors.request.use(
     (config) => {
         const token = cookie.load('access_token');
+        if (config.data instanceof FormData) {
+            config.headers['Content-Type'] = 'multipart/form-data';
+        }
         if (token) {
             config.headers['Authorization'] = `Bearer ${token}`;
         }
