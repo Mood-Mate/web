@@ -1,15 +1,15 @@
-import { Avatar, Box, IconButton, InputBase, Stack } from '@mui/material';
+import { Box, IconButton, InputBase, Stack } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
 import diaryService from '../../services/diary_api';
 import { useSetRecoilState } from 'recoil';
 import { diaryState } from '../../atom/dairy';
+import UserImage from '../Common/userImage';
 
 export default function Comments(props) {
     const [comment, setComment] = useState('');
     const setDiary = useSetRecoilState(diaryState);
-
     const submitComment = (e) => {
         e.preventDefault();
         console.log('댓글: ' + comment);
@@ -54,17 +54,39 @@ export default function Comments(props) {
                                 alignItems: 'flex-start',
                                 flexDirection: 'row',
                             }}>
-                            <Avatar sx={{ width: 40, height: 40, mr: 1 }} />
+                            <UserImage
+                                width={34}
+                                userId={comment.memberId}
+                                profileImage={comment.picture}
+                            />
                             <Box
                                 sx={{
                                     backgroundColor: 'quaternary.main',
                                     borderRadius: 2,
                                     px: 2,
                                     py: 1,
+                                    ml: 1,
                                 }}>
-                                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                                    {comment.nickname}
-                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                    }}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: 'text.primary',
+                                            fontWeight: 600,
+                                            paddingRight: 1,
+                                        }}>
+                                        {comment.nickname}
+                                    </Typography>
+                                    <Typography sx={{ color: 'text.primary', fontSize: 12 }}>
+                                        {' | ' + comment.regDt.replace('T', ' ')}
+                                    </Typography>
+                                </Box>
+
                                 <Typography variant="body1">{comment.contents}</Typography>
                             </Box>
                         </Box>

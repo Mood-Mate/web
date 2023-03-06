@@ -3,6 +3,8 @@ import { useEffect, useState } from 'react';
 import diaryService from '../services/diary_api';
 import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import { userState } from '../atom/auth';
 
 export default function Editor() {
     const [title, setTitle] = useState('');
@@ -10,6 +12,7 @@ export default function Editor() {
     const location = useLocation();
     const navigate = useNavigate();
     const [isNew, setIsNew] = useState(true);
+    const user = useRecoilValue(userState);
     useEffect(() => {
         console.log('editor');
 
@@ -27,6 +30,7 @@ export default function Editor() {
         borderColor: 'primary.main',
         padding: 2,
         margin: 2,
+        backgroundColor: 'background.box',
     };
     const handleSummit = (e) => {
         e.preventDefault();
@@ -38,7 +42,7 @@ export default function Editor() {
                 diaryService.postDiary(title, contents).then((res) => {
                     if (res) {
                         alert('일기가 저장되었습니다.');
-                        navigate('/profile');
+                        navigate('/' + user.id);
                     } else {
                         alert('일기 저장에 실패했습니다.');
                     }
@@ -47,7 +51,7 @@ export default function Editor() {
                 diaryService.editDiary(location.state.diaryId, title, contents).then((res) => {
                     if (res) {
                         alert('일기가 수정되었습니다.');
-                        navigate('/profile');
+                        navigate('/' + user.id);
                     } else {
                         alert('일기 수정에 실패했습니다.');
                     }
@@ -63,7 +67,7 @@ export default function Editor() {
     };
     return (
         <Container maxWidth="md">
-            <Box sx={{ ...boxStyle, border: 0, paddingY: 0 }}>
+            <Box sx={{ paddingX: 3, marginTop: 4 }}>
                 <p>오늘의 일기</p>
             </Box>
 
@@ -92,9 +96,7 @@ export default function Editor() {
                 </Box>
                 <Box
                     sx={{
-                        ...boxStyle,
-                        border: 0,
-                        padding: 0,
+                        paddingX: 2,
                         display: 'flex',
                         justifyContent: 'flex-end',
                     }}>

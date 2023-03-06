@@ -19,7 +19,15 @@ export default function MainRouter() {
             const response = await authService.getUser();
             if (response?.data) {
                 console.log('로그인 유지');
-                setUser({ isLogin: true, vendor: 'email', id: response.data['memberId'] });
+                setUser({
+                    isLogin: true,
+                    vendor: 'email',
+                    id: response.data['memberId'],
+                    nickName: response.data['nickname'],
+                    introduction: response.data['introduce'],
+                    profileImage: response.data['picture'],
+                    email: response.data['email'],
+                });
             }
         }
         setInit(true);
@@ -35,7 +43,7 @@ export default function MainRouter() {
                 <Routes>
                     <Route exact path="/" element={<PrivateRoute component={<Home />} />} />
                     <Route path="/login" element={<SignIn />} />
-                    <Route path="/profile" element={<PrivateRoute component={<Profile />} />} />
+                    <Route path="/:userId" element={<PrivateRoute component={<Profile />} />} />
                     <Route path="/editor" element={<PrivateRoute component={<Editor />} />} />
                     <Route path="/*" element={<Navigate to="/" />}></Route>
                 </Routes>

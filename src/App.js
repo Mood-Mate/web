@@ -1,4 +1,3 @@
-import './App.css';
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import CssBaseline from '@mui/material/CssBaseline';
 import * as React from 'react';
@@ -21,6 +20,10 @@ function App() {
                 main: '#DEF5E5',
             },
             divider: '#9ED5C5',
+            background: {
+                default: 'rgb(222 ,245, 229 , 18%)',
+                box: 'rgba(255,255,255,0.90)',
+            },
         },
     });
 

@@ -31,12 +31,42 @@ class Diary {
             return null;
         }
     };
-    postDiary = async (title, contents) => {
+    getFolloweeDiary = async (next) => {
         try {
-            await client.post('diary', {
+            const response = await client.get(
+                'diary/followee',
+                next
+                    ? {
+                          params: {
+                              next: next,
+                          },
+                      }
+                    : null,
+            );
+            console.log('getFolloweeDiary', response);
+            return response;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+    postDiary = async (title, contents, picture) => {
+        try {
+            const formData = new FormData();
+            const diaryCreateRequest = {
                 title,
                 contents,
+            };
+            const blob = new Blob([JSON.stringify(diaryCreateRequest)], {
+                type: 'application/json',
             });
+
+            formData.append('diaryCreateRequest', blob);
+            if (picture) {
+                formData.append('picture', picture);
+            }
+            console.log('postDiary', formData);
+            await client.post('diary', formData);
             console.log('postDiary', '성공');
             return true;
         } catch (error) {
@@ -44,13 +74,22 @@ class Diary {
             return false;
         }
     };
-    editDiary = async (diaryId, title, contents) => {
+    editDiary = async (diaryId, title, contents, picture) => {
         try {
-            await client.put('diary/edit', {
+            const formData = new FormData();
+            const diaryUpdateRequest = {
                 diaryId,
                 title,
                 contents,
+            };
+            const blob = new Blob([JSON.stringify(diaryUpdateRequest)], {
+                type: 'application/json',
             });
+            formData.append('diaryUpdateRequest', blob);
+            if (picture) {
+                formData.append('picture', picture);
+            }
+            await client.put('diary/edit', formData);
             console.log('editDiary', '성공');
             return true;
         } catch (error) {

@@ -26,7 +26,15 @@ export default function SignInForm() {
 
     const handleResponse = (vendor, response) => {
         if (response?.data) {
-            setUser({ isLogin: true, vendor, id: response.data['memberId'] });
+            setUser({
+                isLogin: true,
+                vendor,
+                id: response.data['memberId'],
+                nickName: response.data['nickname'],
+                introduction: response.data['introduce'],
+                profileImage: response.data['picture'],
+                email: response.data['email'],
+            });
             console.log('로그인 완료');
             navigate('/');
         } else {

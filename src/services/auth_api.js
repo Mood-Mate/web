@@ -34,6 +34,40 @@ class Auth {
             return null;
         }
     };
+    getUserInfoById = async (id) => {
+        ///api/member/{memberId}/profile
+        try {
+            const response = await client.get(`member/${id}/profile`);
+            console.log(response);
+            return {
+                id: response.data['memberId'],
+                name: response.data['name'],
+                introduction: response.data['introduce'],
+                profileImage: response.data['picture'],
+                nickname: response.data['nickname'],
+                followerCount: response.data['followerCount'],
+                followeeCount: response.data['followeeCount'],
+            };
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
+
+    getUserByKeyword = async (keyword) => {
+        try {
+            const response = await client.get(`member`, {
+                params: {
+                    keyword: keyword,
+                },
+            });
+            console.log(response);
+            return response.data;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
 }
 
 const authService = new Auth();

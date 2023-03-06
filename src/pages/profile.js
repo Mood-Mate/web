@@ -7,16 +7,21 @@ import Post from '../components/Profile/post';
 import { useRecoilValue } from 'recoil';
 import { diaryState } from 'atom/dairy';
 import GuestBook from '../components/Profile/guestBook';
+import { useParams } from 'react-router-dom';
 
-export default function Profile() {
+export default function Profile(props) {
     const isMobile = useMediaQuery('(max-width: 700px)');
+
     const diaryData = useRecoilValue(diaryState);
+    const { userId } = useParams();
+
     const boxStyle = {
         borderRadius: 2,
         border: 2,
         borderColor: 'primary.main',
         padding: 2,
         margin: 2,
+        backgroundColor: 'background.box',
     };
     return (
         <div className="profile">
@@ -32,16 +37,21 @@ export default function Profile() {
                 }}>
                 <Box sx={{ width: isMobile ? '100%' : 350, minWidth: 350 }}>
                     <Box sx={{ ...boxStyle }}>
-                        <ProfileBox />
-                        <Calender />
+                        <ProfileBox userId={userId} />
+                        <Calender userId={userId} />
                     </Box>
-                    <GuestBook style={boxStyle} />
+                    <GuestBook style={boxStyle} userId={userId} />
                 </Box>
 
                 <Box sx={{ maxWidth: 760, minWidth: 350, width: '100%' }}>
                     {diaryData.length > 0 ? (
                         diaryData.map((data) => (
-                            <Post key={data['diaryId']} data={data} style={boxStyle} />
+                            <Post
+                                key={data['diaryId']}
+                                data={data}
+                                style={boxStyle}
+                                isFollowee={false}
+                            />
                         ))
                     ) : (
                         <Typography
