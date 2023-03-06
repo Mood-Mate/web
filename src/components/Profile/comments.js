@@ -61,10 +61,28 @@ export default function Comments(props) {
                                     borderRadius: 2,
                                     px: 2,
                                     py: 1,
+                                    ml: 1,
                                 }}>
-                                <Typography variant="subtitle2" sx={{ color: 'text.primary' }}>
-                                    {comment.nickname}
-                                </Typography>
+                                <Box
+                                    sx={{
+                                        display: 'flex',
+                                        flexDirection: 'row',
+                                        alignItems: 'center',
+                                    }}>
+                                    <Typography
+                                        variant="subtitle2"
+                                        sx={{
+                                            color: 'text.primary',
+                                            fontWeight: 600,
+                                            paddingRight: 1,
+                                        }}>
+                                        {comment.nickname}
+                                    </Typography>
+                                    <Typography sx={{ color: 'text.primary', fontSize: 12 }}>
+                                        {' | ' + comment.regDt.replace('T', ' ')}
+                                    </Typography>
+                                </Box>
+
                                 <Typography variant="body1">{comment.contents}</Typography>
                             </Box>
                         </Box>
