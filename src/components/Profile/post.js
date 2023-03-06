@@ -1,9 +1,10 @@
-import { Avatar, Box } from '@mui/material';
+import { Box } from '@mui/material';
 import Diary from './diary';
 import Emojis from './emojis';
 import Comments from './comments';
 import Typography from '@mui/material/Typography';
 import { useState } from 'react';
+import UserImage from '../Common/userImage';
 
 export default function Post(props) {
     const [showAllComments, setShowAllComments] = useState(false);
@@ -14,8 +15,12 @@ export default function Post(props) {
         <Box sx={props.style}>
             {props.isFollowee && (
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
-                    <Avatar sx={{ width: 34, height: 34, mr: 1 }} />
-                    <Typography variant="subtitle2" sx={{ fontWeight: 'bold' }}>
+                    <UserImage
+                        userId={props.data.memberId}
+                        width={34}
+                        profileImage={props.data.picture}
+                    />
+                    <Typography variant="subtitle2" sx={{ fontWeight: 'bold', ml: 1 }}>
                         {props.data.nickname}
                     </Typography>
                 </Box>
