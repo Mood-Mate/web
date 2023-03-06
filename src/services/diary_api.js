@@ -31,6 +31,25 @@ class Diary {
             return null;
         }
     };
+    getFolloweeDiary = async (next) => {
+        try {
+            const response = await client.get(
+                'diary/followee',
+                next
+                    ? {
+                          params: {
+                              next: next,
+                          },
+                      }
+                    : null,
+            );
+            console.log('getFolloweeDiary', response);
+            return response;
+        } catch (error) {
+            console.log(error);
+            return null;
+        }
+    };
     postDiary = async (title, contents, picture) => {
         try {
             const formData = new FormData();
