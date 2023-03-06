@@ -170,15 +170,7 @@ export default function PrimarySearchAppBar() {
                             Diary
                         </Button>
                     </Box>
-                    <Search sx={{ flexGrow: 1, margin: 'auto', maxWidth: 400 }}>
-                        <SearchIconWrapper>
-                            <SearchIcon />
-                        </SearchIconWrapper>
-                        <StyledInputBase
-                            placeholder="Search…"
-                            inputProps={{ 'aria-label': 'search' }}
-                        />
-                    </Search>
+                    <SearchBar />
                     <Box
                         sx={{
                             display: { xs: 'none', md: 'flex' },
