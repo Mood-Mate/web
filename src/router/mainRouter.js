@@ -10,6 +10,7 @@ import { userState } from '../atom/auth';
 import cookie from 'react-cookies';
 import authService from '../services/auth_api';
 import { useEffect, useState } from 'react';
+import UserSettings from '../pages/setting';
 
 export default function MainRouter() {
     const setUser = useSetRecoilState(userState);
@@ -45,6 +46,10 @@ export default function MainRouter() {
                     <Route path="/login" element={<SignIn />} />
                     <Route path="/:userId" element={<PrivateRoute component={<Profile />} />} />
                     <Route path="/editor" element={<PrivateRoute component={<Editor />} />} />
+                    <Route
+                        path="/setting"
+                        element={<PrivateRoute component={<UserSettings />} />}
+                    />
                     <Route path="/*" element={<Navigate to="/" />}></Route>
                 </Routes>
             </BrowserRouter>
