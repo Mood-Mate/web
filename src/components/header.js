@@ -67,7 +67,7 @@ export default function PrimarySearchAppBar() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}>
-            <MenuItem onClick={handleMenuClose}>⚙️ 설정</MenuItem>
+            <MenuItem onClick={handleSettingClick}>⚙️ 설정</MenuItem>
             <MenuItem onClick={handleLogOutClick}>🚪 로그아웃</MenuItem>
         </Menu>
     );
@@ -96,12 +96,8 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 4 new mails"
-                    color="inherit"
-                    onClick={handleEditorClick}>
+            <MenuItem onClick={handleEditorClick}>
+                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                     <EditIcon />
                 </IconButton>
                 <p>글쓰기</p>
