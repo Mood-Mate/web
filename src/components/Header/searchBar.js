@@ -2,20 +2,47 @@ import { alpha, styled } from '@mui/material/styles';
 import { InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import * as React from 'react';
+import { useCallback, useState } from 'react';
+import authService from '../../services/auth_api';
 
 const nameData = ['전민지다', '박명수다', '유재석이다'];
 
 export default function SearchBar() {
-    const [searchValue, setSearchValue] = React.useState('');
+    const [recommendList, setRecommendList] = useState([]);
+    const debounceFunction = (callback, delay) => {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => callback(...args), delay);
+        };
+    };
+    const getRecommendList = useCallback(
+        debounceFunction((value) => {
+            if (value !== '') {
+                authService
+                    .getUserByKeyword(value)
+                    .then((result) => result && setRecommendList(result));
+            } else {
+                setRecommendList([]);
+            }
+        }, 500),
+        [],
+    );
     const handleValue = (e) => {
-        setSearchValue(e.target.value);
-        //setComment(e.target.value);
+        getRecommendList(e.target.value);
     };
     const onKeyPress = (e) => {
         if (e.key === 'Enter') {
             // submitComment(e);
-            console.log('submit');
-            setSearchValue('');
+            //recommendid가있으면 0 인덱스로 넘긴다....
+            // authService
+            //     .getUserByKeyword(value)
+            //     .then((result) => result && setRecommendList(result))
+            console.log(
+                'submit',
+                e.target.value,
+                recommendList.length > 0 ? recommendList[0].nickname : '',
+            );
         }
     };
     // {
@@ -36,15 +63,15 @@ export default function SearchBar() {
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleValue}
                 onKeyDown={onKeyPress}></StyledInputBase>
-            {nameData.length > 0 && searchValue !== '' && (
+            {nameData.length > 0 && recommendList.length !== 0 && (
                 <DropDownBox>
-                    {nameData.map((data) => (
+                    {recommendList.map((data) => (
                         <DropDownItem
-                            key={data}
+                            key={data.memberId}
                             onClick={() => {
                                 console.log('클릭이되엇군?');
                             }}>
-                            {data}
+                            {data.nickname}
                         </DropDownItem>
                     ))}
                 </DropDownBox>
@@ -81,16 +108,17 @@ const SearchIconWrapper = styled('div')(({ theme }) => ({
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
     color: 'inherit',
+    width: '100%',
     '& .MuiInputBase-input': {
         padding: theme.spacing(1, 1, 1, 0),
         // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         paddingTop: '0.5em',
-        transition: theme.transitions.create('width'),
+        // transition: theme.transitions.create('width'),
         width: '100%',
-        [theme.breakpoints.up('md')]: {
-            width: '20ch',
-        },
+        // [theme.breakpoints.up('md')]: {
+        //     width: '20ch',
+        // },
     },
 }));
 
@@ -111,23 +139,3 @@ const DropDownItem = styled('div')(({ theme }) => ({
         backgroundColor: alpha(theme.palette.common.white, 0.5),
     },
 }));
-
-// const DropDownBox = styled.ul`
-//   display: block;
-//   margin: 0 auto;
-//   padding: 8px 0;
-//   background-color: white;
-//   border: 1px solid rgba(0, 0, 0, 0.3);
-//   border-top: none;
-//   border-radius: 0 0 16px 16px;
-//   box-shadow: 0 10px 10px rgb(0, 0, 0, 0.3);
-//   list-style-type: none;
-//   z-index: 3;
-
-// const DropDownItem = styled.li`
-//   padding: 0 16px;
-//
-//   &.selected {
-//     background-color: lightgray;
-//   }
-// `
