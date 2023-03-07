@@ -56,15 +56,15 @@ class Auth {
 
     getUserByKeyword = async (keyword) => {
         try {
-            const response = await client.get(`member`, {
+            const response = await client.get(`member/search`, {
                 params: {
                     keyword: keyword,
                 },
             });
-            console.log(response);
+            console.log('getUserByKeyword', response);
             return response.data;
         } catch (error) {
-            console.log(error);
+            console.log('getUserByKeyword', error);
             return null;
         }
     };
