@@ -10,7 +10,7 @@ import { userState } from '../atom/auth';
 import cookie from 'react-cookies';
 import authService from '../services/auth_api';
 import { useEffect, useState } from 'react';
-import UserSettings from '../pages/setting';
+import UserSettings from '../pages/userSetting';
 
 export default function MainRouter() {
     const setUser = useSetRecoilState(userState);
