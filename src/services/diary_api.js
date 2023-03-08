@@ -5,7 +5,7 @@ class Diary {
         try {
             const response = await client.get('diary/someone', {
                 params: {
-                    memberId: parseInt(memberId),
+                    someone: parseInt(memberId),
                     regDt: date,
                 },
             });
@@ -20,7 +20,7 @@ class Diary {
         try {
             const response = await client.get('diary/someone/date', {
                 params: {
-                    memberId: parseInt(memberId),
+                    someone: parseInt(memberId),
                     regDt: date,
                 },
             });
