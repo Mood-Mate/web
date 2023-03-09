@@ -38,7 +38,7 @@ export default function ProfileBox(props) {
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', paddingTop: 1 }}>
                             <Box sx={{ width: 100 }}>{user.followerCount + '명'}</Box>
-                            <Box sx={{ width: 100 }}>{user.followeeCount + '명'}</Box>
+                            <Box sx={{ width: 100 }}>{user.followingCount + '명'}</Box>
                         </Box>
                     </Box>
                 </Box>

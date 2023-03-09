@@ -12,7 +12,7 @@ class Diary {
             console.log('getDiary', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getDiary', error);
             return null;
         }
     };
@@ -27,14 +27,14 @@ class Diary {
             console.log('getDiaryEvent', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getDiaryEvent', error);
             return null;
         }
     };
-    getFolloweeDiary = async (next) => {
+    getFollowingDiary = async (next) => {
         try {
             const response = await client.get(
-                'diary/followee',
+                'diary/following',
                 next
                     ? {
                           params: {
@@ -43,10 +43,10 @@ class Diary {
                       }
                     : null,
             );
-            console.log('getFolloweeDiary', response);
+            console.log('getFollowingDiary', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getFollowingDiary', error);
             return null;
         }
     };
@@ -67,10 +67,9 @@ class Diary {
             }
             console.log('postDiary', formData);
             await client.post('diary', formData);
-            console.log('postDiary', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('postDiary', error);
             return false;
         }
     };
@@ -93,7 +92,7 @@ class Diary {
             console.log('editDiary', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('editDiary', error);
             return false;
         }
     };
@@ -129,7 +128,7 @@ class Diary {
             console.log('editComment', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('editComment', error);
             return false;
         }
     };
@@ -144,7 +143,7 @@ class Diary {
             console.log('deleteComment', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('deleteComment', error);
             return false;
         }
     };

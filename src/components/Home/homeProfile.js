@@ -105,7 +105,7 @@ export default function HomeProfile(props) {
                                 variant="subtitle1"
                                 onClick={handleClickOpen}
                                 sx={{ cursor: 'pointer' }}>
-                                {'팔로잉 ' + user.followeeCount + '명'}
+                                {'팔로잉 ' + user.followingCount + '명'}
                             </Typography>
                         </Box>
                         <Typography variant="body1" sx={{ paddingY: 1 }}>

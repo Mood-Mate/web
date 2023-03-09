@@ -50,7 +50,7 @@ export default function Profile(props) {
                                 key={data['diaryId']}
                                 data={data}
                                 style={boxStyle}
-                                isFollowee={false}
+                                isFollowing={false}
                             />
                         ))
                     ) : (

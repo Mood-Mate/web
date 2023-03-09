@@ -13,7 +13,7 @@ export default function Post(props) {
     };
     return (
         <Box sx={props.style}>
-            {props.isFollowee && (
+            {props.isFollowing && (
                 <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center' }}>
                     <UserImage
                         userId={props.data.memberId}
@@ -27,7 +27,7 @@ export default function Post(props) {
             )}
             <Diary data={props.data} />
             <Emojis />
-            {props.isFollowee ? (
+            {props.isFollowing ? (
                 <>
                     <Typography
                         onClick={handleAllComments}

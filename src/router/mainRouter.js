@@ -24,10 +24,13 @@ export default function MainRouter() {
                     isLogin: true,
                     vendor: 'email',
                     id: response.data['memberId'],
+                    name: response.data['name'],
                     nickName: response.data['nickname'],
                     introduction: response.data['introduce'],
                     profileImage: response.data['picture'],
                     email: response.data['email'],
+                    dateOfBirth: response.data['dateOfBirth'],
+                    gender: response.data['gender'],
                 });
             }
         }

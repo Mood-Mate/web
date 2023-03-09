@@ -1,41 +1,31 @@
 import client from './http_client';
 
 class Follow {
-    getFollowee = async (next) => {
+    getFollowing = async (id) => {
         try {
-            const response = await client.get(
-                'follow/followee',
-                next
-                    ? {
-                          params: {
-                              next: next,
-                          },
-                      }
-                    : null,
-            );
-            console.log('getFollowee', response);
+            const response = await client.get('follow/following', {
+                params: {
+                    memberId: parseInt(id),
+                },
+            });
+            console.log('getFollowing', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getFollowing', error);
             return null;
         }
     };
-    getFollower = async (next) => {
+    getFollower = async (id) => {
         try {
-            const response = await client.get(
-                'follow/follower',
-                next
-                    ? {
-                          params: {
-                              next: next,
-                          },
-                      }
-                    : null,
-            );
+            const response = await client.get('follow/follower', {
+                params: {
+                    memberId: parseInt(id),
+                },
+            });
             console.log('getFollower', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getFollower', error);
             return null;
         }
     };
@@ -47,7 +37,7 @@ class Follow {
             console.log('follow', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('follow', error);
             return null;
         }
     };
@@ -61,7 +51,7 @@ class Follow {
             console.log('unfollow', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('unfollow', error);
             return null;
         }
     };

@@ -8,10 +8,10 @@ class Auth {
                 email: email,
                 password: password,
             });
-            console.log(response);
+            console.log('login', response);
             return await this.getUser(response.data['accessToken']);
         } catch (error) {
-            console.log(error);
+            console.log('login', error);
             return null;
         }
     };
@@ -26,11 +26,11 @@ class Auth {
                 });
             }
             const response = await client.post('member/auth');
-            console.log(response);
+            console.log('getUser', response);
 
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getUser', error);
             return null;
         }
     };
@@ -38,7 +38,7 @@ class Auth {
         ///api/member/{memberId}/profile
         try {
             const response = await client.get(`member/${id}/profile`);
-            console.log(response);
+            console.log('getUserInfoById', response);
             return {
                 id: response.data['memberId'],
                 name: response.data['name'],
@@ -46,10 +46,10 @@ class Auth {
                 profileImage: response.data['picture'],
                 nickname: response.data['nickname'],
                 followerCount: response.data['followerCount'],
-                followeeCount: response.data['followeeCount'],
+                followingCount: response.data['followingCount'],
             };
         } catch (error) {
-            console.log(error);
+            console.log('getUserInfoById', error);
             return null;
         }
     };
