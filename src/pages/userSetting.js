@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { Box, Button, Divider } from '@mui/material';
+import { Box } from '@mui/material';
 import PrimarySearchAppBar from '../components/header';
 import AccountSetting from '../components/UserSetting/accountSetting';
 import ProfileSetting from '../components/UserSetting/profileSetting';
@@ -54,18 +54,8 @@ export default function UserSettings() {
                                 paddingLeft: 10,
                                 paddingRight: 20,
                                 cursor: 'pointer',
-                                ...unselectedSettingStyle(!isAccountSettings),
-                            }}
-                            onClick={() => setIsAccountSettings(true)}>
-                            계정 설정
-                        </h1>
-                        <h1
-                            style={{
-                                cursor: 'pointer',
-                                ...unselectedSettingStyle(isAccountSettings),
-                            }}
-                            onClick={() => setIsAccountSettings(false)}>
-                            프로필 설정
+                            }}>
+                            {isAccountSettings ? '계정 설정' : '프로필 설정'}
                         </h1>
                     </Box>
                     {isAccountSettings ? <AccountSetting /> : <ProfileSetting />}
