@@ -56,3 +56,6 @@ class Follow {
         }
     };
 }
+
+const followService = new Follow();
+export default followService;

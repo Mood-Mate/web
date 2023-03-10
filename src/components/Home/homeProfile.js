@@ -1,28 +1,53 @@
-import { Box, Button, Dialog } from '@mui/material';
+import { Avatar, Box, Button, Dialog, Divider } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import authService from '../../services/auth_api';
 import UserImage from '../Common/userImage';
 import { useNavigate } from 'react-router-dom';
+import followService from '../../services/follow_api';
 
+function FollowData(type, data) {
+    this.type = type;
+    this.data = data;
+}
 export default function HomeProfile(props) {
     const [user, setUser] = useState(null);
-    const [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(null);
     const navigate = useNavigate();
 
-    const handleClickOpen = () => {
-        setOpen(true);
+    useEffect(() => {
+        console.log('open', open);
+    }, [open]);
+    const handleClickOpen = (type) => {
+        if (type === 'follower') {
+            followService.getFollower(props.userId).then((res) => {
+                if (res) {
+                    setOpen(new FollowData(type, res.data));
+                } else {
+                    alert('팔로워 정보를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+        if (type === 'following') {
+            followService.getFollowing(props.userId).then((res) => {
+                if (res) {
+                    setOpen(new FollowData(type, res.data));
+                } else {
+                    alert('팔로잉 정보를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+        // setOpen(type);
     };
 
     const handleClose = () => {
-        setOpen(false);
+        setOpen(null);
     };
 
     useEffect(() => {
         if (props.userId) {
             authService.getUserInfoById(props.userId).then((res) => {
                 if (res) {
-                    console.log(res);
                     setUser(res);
                 } else {
                     alert('유저 정보를 불러오는데 실패했습니다.');
@@ -93,13 +118,13 @@ export default function HomeProfile(props) {
                             }}>
                             <Typography
                                 variant="subtitle1"
-                                onClick={handleClickOpen}
+                                onClick={() => handleClickOpen('follower')}
                                 sx={{ marginRight: 3, cursor: 'pointer' }}>
                                 {'팔로워 ' + user.followerCount + '명'}
                             </Typography>
                             <Typography
                                 variant="subtitle1"
-                                onClick={handleClickOpen}
+                                onClick={() => handleClickOpen('following')}
                                 sx={{ cursor: 'pointer' }}>
                                 {'팔로잉 ' + user.followingCount + '명'}
                             </Typography>
@@ -110,11 +135,54 @@ export default function HomeProfile(props) {
                     </Box>
                 </Box>
                 <Dialog
-                    open={open}
+                    open={Boolean(open)}
                     onClose={handleClose}
                     aria-labelledby="alert-dialog-title"
                     aria-describedby="alert-dialog-description">
-                    <Box sx={{ width: 500, height: 700, backgroundColor: 'primary.main' }}></Box>
+                    <Box
+                        sx={{
+                            width: 400,
+                            height: 700,
+                            backgroundColor: 'background.default',
+                            padding: 2,
+                        }}>
+                        {open && (
+                            <>
+                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                                    {open.type}
+                                </Typography>
+                                {open.data.map((user, index) => {
+                                    return (
+                                        <Box sx={{ width: '100%' }} key={user.followId}>
+                                            <Box
+                                                sx={{
+                                                    display: 'flex',
+                                                    flexDirection: 'row',
+                                                    alignItems: 'center',
+                                                    paddingX: 1,
+                                                    paddingY: 1,
+                                                }}>
+                                                <Avatar sx={{ width: 40, height: 40 }} />
+                                                <Typography
+                                                    variant="subtitle1"
+                                                    sx={{ marginLeft: 4, flexGrow: 1 }}>
+                                                    {user.nickname}
+                                                </Typography>
+                                                {open.type === 'following' && (
+                                                    <Button
+                                                        variant="contained"
+                                                        sx={{ backgroundColor: 'grey' }}>
+                                                        취소
+                                                    </Button>
+                                                )}
+                                            </Box>
+                                            {index !== open.length - 1 && <Divider />}
+                                        </Box>
+                                    );
+                                })}
+                            </>
+                        )}
+                    </Box>
                 </Dialog>
             </Box>
         )
