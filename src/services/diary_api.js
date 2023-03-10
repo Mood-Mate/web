@@ -56,6 +56,7 @@ class Diary {
             const diaryCreateRequest = {
                 title,
                 contents,
+                secret: false,
             };
             const blob = new Blob([JSON.stringify(diaryCreateRequest)], {
                 type: 'application/json',
@@ -63,6 +64,7 @@ class Diary {
 
             formData.append('diaryCreateRequest', blob);
             if (picture) {
+                console.log(picture);
                 formData.append('picture', picture);
             }
             console.log('postDiary', formData);
