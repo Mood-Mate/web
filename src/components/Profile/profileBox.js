@@ -29,7 +29,7 @@ export default function ProfileBox(props) {
                         alignItems: 'center',
                         textAlign: 'center',
                     }}>
-                    <UserImage userId={props.userId} width={80} profileImage={user.profileImage} />
+                    <UserImage userId={props.userId} width={80} profileImage={user.picture} />
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography
                             variant="h6"
@@ -38,11 +38,11 @@ export default function ProfileBox(props) {
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', paddingTop: 1 }}>
                             <Box sx={{ width: 100 }}>{user.followerCount + '명'}</Box>
-                            <Box sx={{ width: 100 }}>{user.followeeCount + '명'}</Box>
+                            <Box sx={{ width: 100 }}>{user.followingCount + '명'}</Box>
                         </Box>
                     </Box>
                 </Box>
-                <Typography sx={{ paddingY: 3 }}>{user.introduction}</Typography>
+                <Typography sx={{ paddingY: 3 }}>{user.introduce}</Typography>
             </>
         )
     );

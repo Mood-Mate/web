@@ -5,14 +5,17 @@ import SignIn from '../pages/signIn';
 import Profile from '../pages/profile';
 import Editor from '../pages/editor';
 import * as React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { userState } from '../atom/auth';
 import cookie from 'react-cookies';
 import authService from '../services/auth_api';
 import { useEffect, useState } from 'react';
+import UserSettings from '../pages/userSetting';
 
 export default function MainRouter() {
     const setUser = useSetRecoilState(userState);
+    const initUser = useResetRecoilState(userState);
+
     const [init, setInit] = useState(false);
     async function initializeUserInfo() {
         if (cookie.load('access_token')) {
@@ -23,11 +26,17 @@ export default function MainRouter() {
                     isLogin: true,
                     vendor: 'email',
                     id: response.data['memberId'],
-                    nickName: response.data['nickname'],
-                    introduction: response.data['introduce'],
-                    profileImage: response.data['picture'],
+                    name: response.data['name'],
+                    nickname: response.data['nickname'],
+                    introduce: response.data['introduce'],
+                    picture: response.data['picture'],
                     email: response.data['email'],
+                    dateOfBirth: response.data['dateOfBirth'],
+                    gender: response.data['gender'],
                 });
+            } else {
+                console.log('로그인 유지 실패');
+                initUser();
             }
         }
         setInit(true);
@@ -45,6 +54,10 @@ export default function MainRouter() {
                     <Route path="/login" element={<SignIn />} />
                     <Route path="/:userId" element={<PrivateRoute component={<Profile />} />} />
                     <Route path="/editor" element={<PrivateRoute component={<Editor />} />} />
+                    <Route
+                        path="/setting"
+                        element={<PrivateRoute component={<UserSettings />} />}
+                    />
                     <Route path="/*" element={<Navigate to="/" />}></Route>
                 </Routes>
             </BrowserRouter>

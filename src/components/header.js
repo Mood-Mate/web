@@ -2,7 +2,7 @@ import * as React from 'react';
 import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SettingsIcon from '@mui/icons-material/Settings';
-import EditIcon from '@mui/icons-material/Edit';
+import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { useNavigate } from 'react-router-dom';
 import { Button, IconButton, AppBar, Box, Toolbar, Badge, MenuItem, Menu } from '@mui/material';
 import { useResetRecoilState } from 'recoil';
@@ -67,7 +67,7 @@ export default function PrimarySearchAppBar() {
             }}
             open={isMenuOpen}
             onClose={handleMenuClose}>
-            <MenuItem onClick={handleMenuClose}>⚙️ 설정</MenuItem>
+            <MenuItem onClick={handleSettingClick}>⚙️ 설정</MenuItem>
             <MenuItem onClick={handleLogOutClick}>🚪 로그아웃</MenuItem>
         </Menu>
     );
@@ -96,13 +96,9 @@ export default function PrimarySearchAppBar() {
                 </IconButton>
                 <p>Notifications</p>
             </MenuItem>
-            <MenuItem>
-                <IconButton
-                    size="large"
-                    aria-label="show 4 new mails"
-                    color="inherit"
-                    onClick={handleEditorClick}>
-                    <EditIcon />
+            <MenuItem onClick={handleEditorClick}>
+                <IconButton size="large" aria-label="show 4 new mails" color="inherit">
+                    <DriveFileRenameOutlineIcon />
                 </IconButton>
                 <p>글쓰기</p>
             </MenuItem>
@@ -147,7 +143,7 @@ export default function PrimarySearchAppBar() {
                             aria-label="show 4 new mails"
                             color="inherit"
                             onClick={handleEditorClick}>
-                            <EditIcon />
+                            <DriveFileRenameOutlineIcon />
                         </IconButton>
                         <IconButton
                             size="large"

@@ -4,10 +4,13 @@ const initialUser = {
     isLogin: false,
     vendor: null,
     id: null,
-    nickName: null,
-    introduction: null,
-    profileImage: null,
+    name: null,
+    nickname: null,
+    introduce: null,
+    picture: null,
     email: null,
+    dateOfBirth: null,
+    gender: null,
 };
 
 export const userState = atom({

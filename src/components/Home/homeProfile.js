@@ -3,10 +3,13 @@ import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import authService from '../../services/auth_api';
 import UserImage from '../Common/userImage';
+import { useNavigate } from 'react-router-dom';
 
 export default function HomeProfile(props) {
     const [user, setUser] = useState(null);
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate();
+
     const handleClickOpen = () => {
         setOpen(true);
     };
@@ -47,11 +50,7 @@ export default function HomeProfile(props) {
                         justifyContent: 'center',
                     }}>
                     <Box sx={{ flexGrow: '1' }}>
-                        <UserImage
-                            userId={props.userId}
-                            width={100}
-                            profileImage={user.profileImage}
-                        />
+                        <UserImage userId={props.userId} width={100} profileImage={user.picture} />
                     </Box>
                     <Box
                         sx={{
@@ -74,7 +73,16 @@ export default function HomeProfile(props) {
                             <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
                                 {user.nickname}
                             </Typography>
-                            <Button variant="contained" sx={{ marginRight: 4 }}>
+                            <Button
+                                variant="contained"
+                                sx={{ marginRight: 4 }}
+                                onClick={() => {
+                                    navigate('/setting', {
+                                        state: {
+                                            tab: 'profile',
+                                        },
+                                    });
+                                }}>
                                 프로필 편집
                             </Button>
                         </Box>
@@ -93,11 +101,11 @@ export default function HomeProfile(props) {
                                 variant="subtitle1"
                                 onClick={handleClickOpen}
                                 sx={{ cursor: 'pointer' }}>
-                                {'팔로잉 ' + user.followeeCount + '명'}
+                                {'팔로잉 ' + user.followingCount + '명'}
                             </Typography>
                         </Box>
                         <Typography variant="body1" sx={{ paddingY: 1 }}>
-                            {user.introduction}
+                            {user.introduce}
                         </Typography>
                     </Box>
                 </Box>

@@ -8,10 +8,10 @@ class Auth {
                 email: email,
                 password: password,
             });
-            console.log(response);
+            console.log('login', response);
             return await this.getUser(response.data['accessToken']);
         } catch (error) {
-            console.log(error);
+            console.log('login', error);
             return null;
         }
     };
@@ -19,18 +19,32 @@ class Auth {
         try {
             if (token) {
                 const expires = new Date();
-                expires.setDate(expires.getDate() + 1); // 1일동안 쿠키 유지
+                expires.setDate(expires.getDate() + 7); //7일동안 쿠키 유지
                 cookie.save('access_token', token, {
                     path: '/',
                     expires,
                 });
             }
             const response = await client.post('member/auth');
-            console.log(response);
+            console.log('getUser', response);
 
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getUser', error);
+            return null;
+        }
+    };
+
+    editUser = async (id, key, value) => {
+        try {
+            const response = await client.patch('member', {
+                memberId: id,
+                [key]: value,
+            });
+            console.log('editUser', response);
+            return response;
+        } catch (error) {
+            console.log('editUser', error);
             return null;
         }
     };
@@ -38,33 +52,33 @@ class Auth {
         ///api/member/{memberId}/profile
         try {
             const response = await client.get(`member/${id}/profile`);
-            console.log(response);
+            console.log('getUserInfoById', response);
             return {
                 id: response.data['memberId'],
                 name: response.data['name'],
-                introduction: response.data['introduce'],
-                profileImage: response.data['picture'],
+                introduce: response.data['introduce'],
+                picture: response.data['picture'], //profileImage
                 nickname: response.data['nickname'],
                 followerCount: response.data['followerCount'],
-                followeeCount: response.data['followeeCount'],
+                followingCount: response.data['followingCount'],
             };
         } catch (error) {
-            console.log(error);
+            console.log('getUserInfoById', error);
             return null;
         }
     };
 
     getUserByKeyword = async (keyword) => {
         try {
-            const response = await client.get(`member`, {
+            const response = await client.get(`member/search`, {
                 params: {
                     keyword: keyword,
                 },
             });
-            console.log(response);
+            console.log('getUserByKeyword', response);
             return response.data;
         } catch (error) {
-            console.log(error);
+            console.log('getUserByKeyword', error);
             return null;
         }
     };

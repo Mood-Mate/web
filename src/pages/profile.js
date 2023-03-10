@@ -6,7 +6,7 @@ import Calender from '../components/Profile/calender';
 import Post from '../components/Profile/post';
 import { useRecoilValue } from 'recoil';
 import { diaryState } from 'atom/dairy';
-import GuestBook from '../components/Profile/guestBook';
+import GuestBook from 'components/Profile/guestBook';
 import { useParams } from 'react-router-dom';
 
 export default function Profile(props) {
@@ -50,7 +50,7 @@ export default function Profile(props) {
                                 key={data['diaryId']}
                                 data={data}
                                 style={boxStyle}
-                                isFollowee={false}
+                                isFollowing={false}
                             />
                         ))
                     ) : (

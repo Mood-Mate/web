@@ -15,7 +15,7 @@ export default function Home() {
     const user = useRecoilValue(userState);
 
     useEffect(() => {
-        diaryService.getFolloweeDiary(diaryData.next).then((res) => {
+        diaryService.getFollowingDiary(diaryData.next).then((res) => {
             if (res?.data) {
                 setDiaryData((diary) => {
                     const newData = [...diary.data, ...res.data.data];
@@ -69,7 +69,7 @@ export default function Home() {
                                 key={data['diaryId']}
                                 data={data}
                                 style={boxStyle}
-                                isFollowee={true}
+                                isFollowing={true}
                             />
                         ))
                     ) : (

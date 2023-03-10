@@ -5,14 +5,14 @@ class Diary {
         try {
             const response = await client.get('diary/someone', {
                 params: {
-                    memberId: parseInt(memberId),
+                    someone: parseInt(memberId),
                     regDt: date,
                 },
             });
             console.log('getDiary', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getDiary', error);
             return null;
         }
     };
@@ -20,21 +20,21 @@ class Diary {
         try {
             const response = await client.get('diary/someone/date', {
                 params: {
-                    memberId: parseInt(memberId),
+                    someone: parseInt(memberId),
                     regDt: date,
                 },
             });
             console.log('getDiaryEvent', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getDiaryEvent', error);
             return null;
         }
     };
-    getFolloweeDiary = async (next) => {
+    getFollowingDiary = async (next) => {
         try {
             const response = await client.get(
-                'diary/followee',
+                'diary/following',
                 next
                     ? {
                           params: {
@@ -43,10 +43,10 @@ class Diary {
                       }
                     : null,
             );
-            console.log('getFolloweeDiary', response);
+            console.log('getFollowingDiary', response);
             return response;
         } catch (error) {
-            console.log(error);
+            console.log('getFollowingDiary', error);
             return null;
         }
     };
@@ -56,6 +56,7 @@ class Diary {
             const diaryCreateRequest = {
                 title,
                 contents,
+                secret: false,
             };
             const blob = new Blob([JSON.stringify(diaryCreateRequest)], {
                 type: 'application/json',
@@ -63,14 +64,14 @@ class Diary {
 
             formData.append('diaryCreateRequest', blob);
             if (picture) {
+                console.log(picture);
                 formData.append('picture', picture);
             }
             console.log('postDiary', formData);
             await client.post('diary', formData);
-            console.log('postDiary', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('postDiary', error);
             return false;
         }
     };
@@ -93,7 +94,7 @@ class Diary {
             console.log('editDiary', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('editDiary', error);
             return false;
         }
     };
@@ -129,7 +130,7 @@ class Diary {
             console.log('editComment', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('editComment', error);
             return false;
         }
     };
@@ -144,7 +145,7 @@ class Diary {
             console.log('deleteComment', '성공');
             return true;
         } catch (error) {
-            console.log(error);
+            console.log('deleteComment', error);
             return false;
         }
     };

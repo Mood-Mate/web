@@ -7,7 +7,7 @@ class GuestBook {
             console.log('getGuestBook', response.data);
             return Array.isArray(response.data) ? response.data : null;
         } catch (error) {
-            console.log(error);
+            console.log('getGuestBook', error);
             return null;
         }
     };
@@ -19,7 +19,7 @@ class GuestBook {
             console.log('postGuestBook', response.data);
             return response.data;
         } catch (error) {
-            console.log(error);
+            console.log('postGuestBook', error);
             return null;
         }
     };
