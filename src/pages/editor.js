@@ -41,7 +41,7 @@ export default function Editor() {
         if (title !== '' && contents !== '') {
             console.log(isNew);
             if (isNew) {
-                diaryService.postDiary(title, contents, image.ref).then((res) => {
+                diaryService.postDiary(title, contents, image?.ref).then((res) => {
                     if (res) {
                         alert('일기가 저장되었습니다.');
                         navigate('/' + user.id);
