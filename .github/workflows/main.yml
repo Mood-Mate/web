@@ -1,4 +1,4 @@
-# master-deploy-work.yml
+# main-deploy-work.yml
 name: main
 
 on:
@@ -16,27 +16,38 @@ jobs:
       - name: Cache node modules  # node modules 캐싱
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: ${{ runner.OS }}-master-build-${{ hashFiles('**/package-lock.json'') }}
+          path: node_modules
+          key: ${{ runner.OS }}-main-build-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             ${{ runner.OS }}-build-
             ${{ runner.OS }}-
-
+            
+      # Github Repository Secrets를 통해 환경 변수 파일을 생성합니다.
+      - name: Generate Environment Variables File for Production
+        run: |
+          echo "REACT_APP_API_URL=$REACT_APP_API_URL" >> .env.production
+        env:
+          REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
+          
+          
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }} 
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }} 
+          aws-region: ap-northeast-2
+          
       - name: Install Dependencies
-        run: yarn
+        run: npm install
 
       - name: Build
-        run: yarn build
+        run: npm run build
         env:
                   CI: ""
-                  REACT_APP_API_URL: ${{ secrets.REACT_APP_API_URL }}
 
       - name: Deploy
-        env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         run: |
           aws s3 cp \
-            --recursive \
-            --region ap-northeast-1 \
-            dist s3:moodmate-sideproject
+          --recursive \
+          --region ap-northeast-2 \
+          build s3://moodmate-sideproject
