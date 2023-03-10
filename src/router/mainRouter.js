@@ -14,6 +14,8 @@ import UserSettings from '../pages/userSetting';
 
 export default function MainRouter() {
     const setUser = useSetRecoilState(userState);
+    const initUser = useResetRecoilState(userState);
+
     const [init, setInit] = useState(false);
     async function initializeUserInfo() {
         if (cookie.load('access_token')) {
@@ -32,6 +34,9 @@ export default function MainRouter() {
                     dateOfBirth: response.data['dateOfBirth'],
                     gender: response.data['gender'],
                 });
+            } else {
+                console.log('로그인 유지 실패');
+                initUser();
             }
         }
         setInit(true);
