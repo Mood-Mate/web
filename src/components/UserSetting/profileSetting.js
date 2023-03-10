@@ -20,7 +20,7 @@ export default function ProfileSetting() {
                 <Typography sx={{ whiteSpace: 'pre-line' }}>
                     {'dkfdajifdjfdhfifjdaskjfkdajfdjfkdjaf\n kjdkfjdkjf\nksda\njkfdjask'}
                 </Typography>
-                {/*<Typography sx={{ paddingY: 3 }}>{user.introduction}</Typography>*/}
+                {/*<Typography sx={{ paddingY: 3 }}>{user.introduce}</Typography>*/}
             </Box>
             <Button>수정</Button>
         </Box>

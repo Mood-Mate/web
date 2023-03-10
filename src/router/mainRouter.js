@@ -5,7 +5,7 @@ import SignIn from '../pages/signIn';
 import Profile from '../pages/profile';
 import Editor from '../pages/editor';
 import * as React from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useResetRecoilState, useSetRecoilState } from 'recoil';
 import { userState } from '../atom/auth';
 import cookie from 'react-cookies';
 import authService from '../services/auth_api';
@@ -25,9 +25,9 @@ export default function MainRouter() {
                     vendor: 'email',
                     id: response.data['memberId'],
                     name: response.data['name'],
-                    nickName: response.data['nickname'],
-                    introduction: response.data['introduce'],
-                    profileImage: response.data['picture'],
+                    nickname: response.data['nickname'],
+                    introduce: response.data['introduce'],
+                    picture: response.data['picture'],
                     email: response.data['email'],
                     dateOfBirth: response.data['dateOfBirth'],
                     gender: response.data['gender'],

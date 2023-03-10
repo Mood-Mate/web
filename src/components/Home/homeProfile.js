@@ -50,11 +50,7 @@ export default function HomeProfile(props) {
                         justifyContent: 'center',
                     }}>
                     <Box sx={{ flexGrow: '1' }}>
-                        <UserImage
-                            userId={props.userId}
-                            width={100}
-                            profileImage={user.profileImage}
-                        />
+                        <UserImage userId={props.userId} width={100} profileImage={user.picture} />
                     </Box>
                     <Box
                         sx={{
@@ -109,7 +105,7 @@ export default function HomeProfile(props) {
                             </Typography>
                         </Box>
                         <Typography variant="body1" sx={{ paddingY: 1 }}>
-                            {user.introduction}
+                            {user.introduce}
                         </Typography>
                     </Box>
                 </Box>

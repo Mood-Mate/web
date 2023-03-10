@@ -29,7 +29,7 @@ export default function ProfileBox(props) {
                         alignItems: 'center',
                         textAlign: 'center',
                     }}>
-                    <UserImage userId={props.userId} width={80} profileImage={user.profileImage} />
+                    <UserImage userId={props.userId} width={80} profileImage={user.picture} />
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography
                             variant="h6"
@@ -42,7 +42,7 @@ export default function ProfileBox(props) {
                         </Box>
                     </Box>
                 </Box>
-                <Typography sx={{ paddingY: 3 }}>{user.introduction}</Typography>
+                <Typography sx={{ paddingY: 3 }}>{user.introduce}</Typography>
             </>
         )
     );
