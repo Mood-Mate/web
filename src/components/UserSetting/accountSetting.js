@@ -27,7 +27,7 @@ export default function AccountSetting() {
         console.log(e.currentTarget.id);
         const key = e.currentTarget.id;
         const value = edit[key].value;
-        console.log('editMode', edit[key]);
+        console.log('handleEditMode', key, value);
         if (edit[key].editable !== false) {
             if (user[key] !== value) {
                 authService.editUser(user.id, key, value).then((res) => {
