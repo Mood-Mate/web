@@ -5,10 +5,12 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../atom/auth';
+import { styled } from '@mui/material/styles';
 
 export default function Editor() {
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
+    const [image, setImage] = useState(null);
     const location = useLocation();
     const navigate = useNavigate();
     const [isNew, setIsNew] = useState(true);
@@ -39,7 +41,7 @@ export default function Editor() {
         if (title !== '' && contents !== '') {
             console.log(isNew);
             if (isNew) {
-                diaryService.postDiary(title, contents).then((res) => {
+                diaryService.postDiary(title, contents, image.ref).then((res) => {
                     if (res) {
                         alert('일기가 저장되었습니다.');
                         navigate('/' + user.id);
@@ -65,6 +67,29 @@ export default function Editor() {
     const handleContentsChange = (e) => {
         setContents(e.target.value);
     };
+    const handleImageChange = (e) => {
+        console.log(e.target.files[0]);
+        if (e.target.files[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onloadend = () => {
+                console.log('reader.result', reader.result);
+                setImage({
+                    ref: e.target.files[0],
+                    url: reader.result,
+                });
+            };
+        }
+    };
+    const onImageClick = (base64URL) => {
+        let win = window.open();
+        win.document.write(
+            '<iframe src="' +
+                base64URL +
+                '"  style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>',
+        );
+        win.document.close(); //close안해주면로딩창이 계속 뜸.
+    };
     return (
         <Container maxWidth="md">
             <Box sx={{ paddingX: 3, marginTop: 4 }}>
@@ -82,6 +107,25 @@ export default function Editor() {
                         value={title}
                         onChange={handleTitleChange}
                     />
+                </Box>
+                <Box sx={{ flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                    <ImageInputLabel className="editor-image-label" htmlFor="editor-image">
+                        {'🏞️ 이미지 ' + (image ? '변경' : '추가')}
+                    </ImageInputLabel>
+                    <input
+                        type="file"
+                        id="editor-image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{ display: 'none' }}
+                    />
+                    {image && image.url && (
+                        <Box sx={{ paddingX: 2 }}>
+                            <a href="" onClick={() => onImageClick(image.url)} rel="noreferrer">
+                                {image.ref.name}
+                            </a>
+                        </Box>
+                    )}
                 </Box>
                 <Box sx={boxStyle}>
                     <InputBase
@@ -108,3 +152,16 @@ export default function Editor() {
         </Container>
     );
 }
+
+const ImageInputLabel = styled('label')(({ theme }) => ({
+    cursor: 'pointer',
+    fontWeight: 'bold',
+    marginLeft: 16,
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+    padding: 6,
+    borderRadius: 4,
+    '&:hover': {
+        filter: 'brightness(85%)',
+    },
+}));
