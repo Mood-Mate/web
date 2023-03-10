@@ -19,7 +19,7 @@ class Auth {
         try {
             if (token) {
                 const expires = new Date();
-                expires.setDate(expires.getDate() + 1); // 1일동안 쿠키 유지
+                expires.setDate(expires.getDate() + 7); //7일동안 쿠키 유지
                 cookie.save('access_token', token, {
                     path: '/',
                     expires,
@@ -34,6 +34,20 @@ class Auth {
             return null;
         }
     };
+
+    editUser = async (id, key, value) => {
+        try {
+            const response = await client.patch('member', {
+                memberId: id,
+                [key]: value,
+            });
+            console.log('editUser', response);
+            return response;
+        } catch (error) {
+            console.log('editUser', error);
+            return null;
+        }
+    };
     getUserInfoById = async (id) => {
         ///api/member/{memberId}/profile
         try {
@@ -42,8 +56,8 @@ class Auth {
             return {
                 id: response.data['memberId'],
                 name: response.data['name'],
-                introduction: response.data['introduce'],
-                profileImage: response.data['picture'],
+                introduce: response.data['introduce'],
+                picture: response.data['picture'], //profileImage
                 nickname: response.data['nickname'],
                 followerCount: response.data['followerCount'],
                 followingCount: response.data['followingCount'],
