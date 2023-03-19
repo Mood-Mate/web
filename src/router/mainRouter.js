@@ -11,6 +11,7 @@ import cookie from 'react-cookies';
 import authService from '../services/auth_api';
 import { useEffect, useState } from 'react';
 import UserSettings from '../pages/userSetting';
+import SignUp from '../pages/signUp';
 
 export default function MainRouter() {
     const setUser = useSetRecoilState(userState);
@@ -52,6 +53,7 @@ export default function MainRouter() {
                 <Routes>
                     <Route exact path="/" element={<PrivateRoute component={<Home />} />} />
                     <Route path="/login" element={<SignIn />} />
+                    <Route path="/signup" element={<SignUp />} />
                     <Route path="/:userId" element={<PrivateRoute component={<Profile />} />} />
                     <Route path="/editor" element={<PrivateRoute component={<Editor />} />} />
                     <Route

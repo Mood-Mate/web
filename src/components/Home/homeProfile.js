@@ -102,11 +102,14 @@ export default function HomeProfile(props) {
                                 variant="contained"
                                 sx={{ marginRight: 4 }}
                                 onClick={() => {
-                                    navigate('/setting', {
-                                        state: {
-                                            tab: 'profile',
-                                        },
-                                    });
+                                    navigate(
+                                        '/setting',
+                                        //     {
+                                        //     state: {
+                                        //         tab: 'profile',
+                                        //     },
+                                        // }
+                                    );
                                 }}>
                                 프로필 편집
                             </Button>
@@ -162,7 +165,15 @@ export default function HomeProfile(props) {
                                                     paddingX: 1,
                                                     paddingY: 1,
                                                 }}>
-                                                <Avatar sx={{ width: 40, height: 40 }} />
+                                                <UserImage
+                                                    width={40}
+                                                    userId={
+                                                        open.type === 'following'
+                                                            ? user.followingMemberId
+                                                            : user.followerMemberId
+                                                    }
+                                                    profileImage={user.picture}
+                                                />
                                                 <Typography
                                                     variant="subtitle1"
                                                     sx={{ marginLeft: 4, flexGrow: 1 }}>

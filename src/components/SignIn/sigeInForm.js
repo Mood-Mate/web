@@ -5,7 +5,7 @@ import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import authService from 'services/auth_api';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import { userState } from '../../atom/auth';
 
@@ -71,19 +71,15 @@ export default function SignInForm() {
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
             />
-            <Button type="submit" fullWidth variant="contained" sx={{ mt: 3, mb: 2 }}>
+            <Button type="submit" fullWidth variant="contained" sx={{ mt: 1, mb: 2 }}>
                 로그인
             </Button>
             <Grid container>
-                <Grid item xs>
-                    {/*<Link href="#" variant="body2">*/}
-                    {/*    아이디 / 비밀번호 찾기*/}
-                    {/*</Link>*/}
-                </Grid>
+                {/*<Grid item xs>*/}
+                {/*    <Link to="/login/help">아이디 / 비밀번호 찾기</Link>*/}
+                {/*</Grid>*/}
                 <Grid item>
-                    {/*<Link href="#" variant="body2">*/}
-                    {/*    회원가입하기*/}
-                    {/*</Link>*/}
+                    <Link to="/signup">회원가입하기</Link>
                 </Grid>
             </Grid>
         </Box>

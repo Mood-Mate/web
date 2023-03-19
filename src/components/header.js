@@ -88,14 +88,14 @@ export default function PrimarySearchAppBar() {
             }}
             open={isMobileMenuOpen}
             onClose={handleMobileMenuClose}>
-            <MenuItem>
-                <IconButton size="large" aria-label="show 17 new notifications" color="inherit">
-                    <Badge badgeContent={17} color="error">
-                        <NotificationsIcon />
-                    </Badge>
-                </IconButton>
-                <p>Notifications</p>
-            </MenuItem>
+            {/*<MenuItem>*/}
+            {/*    <IconButton size="large" aria-label="show 17 new notifications" color="inherit">*/}
+            {/*        <Badge badgeContent={17} color="error">*/}
+            {/*            <NotificationsIcon />*/}
+            {/*        </Badge>*/}
+            {/*    </IconButton>*/}
+            {/*    <p>Notifications</p>*/}
+            {/*</MenuItem>*/}
             <MenuItem onClick={handleEditorClick}>
                 <IconButton size="large" aria-label="show 4 new mails" color="inherit">
                     <DriveFileRenameOutlineIcon />
@@ -145,14 +145,14 @@ export default function PrimarySearchAppBar() {
                             onClick={handleEditorClick}>
                             <DriveFileRenameOutlineIcon />
                         </IconButton>
-                        <IconButton
-                            size="large"
-                            aria-label="show 17 new notifications"
-                            color="inherit">
-                            <Badge badgeContent={17} color="error">
-                                <NotificationsIcon />
-                            </Badge>
-                        </IconButton>
+                        {/*<IconButton*/}
+                        {/*    size="large"*/}
+                        {/*    aria-label="show 17 new notifications"*/}
+                        {/*    color="inherit">*/}
+                        {/*    <Badge badgeContent={17} color="error">*/}
+                        {/*        <NotificationsIcon />*/}
+                        {/*    </Badge>*/}
+                        {/*</IconButton>*/}
                         <IconButton
                             size="large"
                             edge="end"

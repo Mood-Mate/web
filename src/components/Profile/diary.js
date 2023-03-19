@@ -31,6 +31,12 @@ export default function Diary(props) {
     const handleDisagreeDelete = () => {
         setOpen(false);
     };
+
+    const onImgError = (e) => {
+        console.error(e.target.src);
+        e.target.outerHTML = '<div style="color:darkgrey">[ 이미지 로딩 실패 ㅠㅠ ]</div>';
+    };
+
     const handleAgreeDelete = () => {
         setOpen(false);
         console.log('삭제 api 실행');
@@ -65,6 +71,17 @@ export default function Diary(props) {
             <Typography variant="h5" sx={{ paddingY: 1 }}>
                 {props.data.title}
             </Typography>
+            {props.data.picture && (
+                <img
+                    height="auto"
+                    width="auto"
+                    style={{ maxHeight: '500px', maxWidth: '100%' }}
+                    alt="사진"
+                    src={process.env.REACT_APP_API_URL + props.data.diaryPicture}
+                    loading="lazy"
+                    onError={onImgError}
+                />
+            )}
             <Typography sx={{ whiteSpace: 'pre-line' }}>{props.data.contents}</Typography>
         </Box>
     );

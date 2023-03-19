@@ -82,6 +82,7 @@ class Diary {
                 diaryId,
                 title,
                 contents,
+                secret: false,
             };
             const blob = new Blob([JSON.stringify(diaryUpdateRequest)], {
                 type: 'application/json',
@@ -112,8 +113,7 @@ class Diary {
     postComment = async (diaryId, contents) => {
         try {
             const response = await client.post(`diary/reply/${diaryId}`, contents);
-            console.log(response);
-            console.log('postComment', '성공');
+            console.log('postComment', response);
             return response;
         } catch (error) {
             console.log(error);

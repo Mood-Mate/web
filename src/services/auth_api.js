@@ -48,6 +48,27 @@ class Auth {
             return null;
         }
     };
+
+    createUser = async ({ email, password, name, nickname, gender, birth }) => {
+        try {
+            const data = {
+                email: email,
+                password: password,
+                name: name,
+                nickname: nickname,
+                gender: gender === 'man' ? 'MAN' : 'WOMAN',
+                year: birth.year(),
+                month: birth.month() + 1,
+                dayOfMonth: birth.date(),
+            };
+            const response = await client.post('member', data);
+            console.log('createUser', data, response);
+            return true;
+        } catch (error) {
+            console.log('createUser', error);
+            return false;
+        }
+    };
     getUserInfoById = async (id) => {
         ///api/member/{memberId}/profile
         try {

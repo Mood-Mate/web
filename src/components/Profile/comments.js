@@ -17,6 +17,7 @@ export default function Comments(props) {
             diaryService.postComment(props.data.diaryId, comment).then((res) => {
                 if (res) {
                     alert('댓글이 저장되었습니다.');
+                    //디바운싱 할것 두번 누르면 두번전송됨.
                     setComment('');
                     setDiary((prev) => {
                         const tmp = [...prev];
@@ -25,6 +26,7 @@ export default function Comments(props) {
                                 console.log('댓글 추가');
                                 return { ...diary, comments: res.data };
                             }
+                            return diary;
                         });
                     });
                 } else {

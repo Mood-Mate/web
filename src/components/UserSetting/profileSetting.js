@@ -3,7 +3,19 @@ import { alpha, styled } from '@mui/material/styles';
 
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
+import { useRecoilState } from 'recoil';
+import { userState } from '../../atom/auth';
+import { useState } from 'react';
+
+function EditMode(editable, value) {
+    this.editable = editable;
+    this.value = value ?? '';
+}
 export default function ProfileSetting() {
+    const [user, setUser] = useRecoilState(userState);
+    const [edit, setEdit] = useState({
+        introduce: new EditMode(false),
+    });
     return (
         <Box sx={{ ...contentBoxStyle, ...boxStyle }}>
             <Box sx={{ height: 100, width: 100, position: 'relative' }}>

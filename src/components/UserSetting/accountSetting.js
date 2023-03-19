@@ -1,7 +1,7 @@
 import { Avatar, Box, Button, Divider, InputBase } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import EditIcon from '@mui/icons-material/Edit';
-import { alpha, styled } from '@mui/material/styles';
+import { styled } from '@mui/material/styles';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { userState } from '../../atom/auth';
@@ -22,7 +22,7 @@ export default function AccountSetting() {
         gender: new EditMode(false),
         introduce: new EditMode(false),
     });
-
+    const [image, setImage] = useState(null);
     const handleEditMode = (e) => {
         console.log(e.currentTarget.id);
         const key = e.currentTarget.id;
@@ -61,15 +61,48 @@ export default function AccountSetting() {
             [id]: new EditMode(true, value),
         }));
     };
-
+    const handleImageChange = (e) => {
+        console.log(e.target.files[0]);
+        if (e.target.files[0]) {
+            const reader = new FileReader();
+            reader.readAsDataURL(e.target.files[0]);
+            reader.onloadend = () => {
+                //console.log('reader.result', reader.result);
+                setImage({
+                    ref: e.target.files[0],
+                    url: reader.result,
+                });
+            };
+            authService.editUser(user.id, 'picture', e.target.files[0]).then((res) => {
+                if (res) {
+                    setUser((prev) => ({
+                        ...prev,
+                        picture: e.target.files[0],
+                    }));
+                } else {
+                    alert('수정 실패');
+                }
+            });
+        }
+    };
     return (
         <>
             <Box sx={{ marginBottom: 6 }}>
                 <Box sx={{ height: 150, width: 150, position: 'relative', margin: 'auto' }}>
-                    <Avatar sx={{ height: '100%', width: '100%' }} />
-                    <EditButton>
+                    <Avatar
+                        sx={{ height: '100%', width: '100%' }}
+                        src={image ? image.url : process.env.REACT_APP_API_URL + '/' + user.picture}
+                    />
+                    <ImageInputLabel htmlFor="user-image">
                         <EditIcon />
-                    </EditButton>
+                    </ImageInputLabel>
+                    <input
+                        type="file"
+                        id="user-image"
+                        accept="image/*"
+                        onChange={handleImageChange}
+                        style={{ display: 'none' }}
+                    />
                 </Box>
             </Box>
 
@@ -220,20 +253,23 @@ const contentBoxStyle = {
     flexDirection: 'row',
     alignItems: 'center',
 };
-const EditButton = styled('button')(({ theme }) => ({
-    backgroundColor: alpha(theme.palette.primary.main, 0.5),
-    border: 'none',
-    borderRadius: '10%',
-    position: 'absolute',
+const ImageInputLabel = styled('label')(({ theme }) => ({
     cursor: 'pointer',
+    fontWeight: 'bold',
+    color: 'white',
+    backgroundColor: theme.palette.primary.main,
+    borderRadius: 4,
+    position: 'absolute',
     top: '50%',
     left: '50%',
     zIndex: 10,
     transform: 'translate(-50%, -50%)',
     width: 30,
     height: 30,
-    padding: 0,
+    display: 'flex',
+    justifyContent: 'center',
+    alignItems: 'center',
     '&:hover': {
-        backgroundColor: alpha(theme.palette.primary.main, 0.9),
+        filter: 'brightness(85%)',
     },
 }));
