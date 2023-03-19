@@ -1,14 +1,18 @@
 import { alpha, styled } from '@mui/material/styles';
-import { InputBase } from '@mui/material';
+import { Avatar, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import * as React from 'react';
 import { useCallback, useState } from 'react';
 import authService from '../../services/auth_api';
-
+import { useNavigate } from 'react-router-dom';
+import Typography from '@mui/material/Typography';
+import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 const nameData = ['전민지다', '박명수다', '유재석이다'];
 
 export default function SearchBar() {
     const [recommendList, setRecommendList] = useState([]);
+    const navigate = useNavigate();
+
     const debounceFunction = (callback, delay) => {
         let timer;
         return (...args) => {
@@ -69,9 +73,19 @@ export default function SearchBar() {
                         <DropDownItem
                             key={data.memberId}
                             onClick={() => {
-                                console.log('클릭이되엇군?');
+                                navigate(`/${data.memberId}`);
                             }}>
-                            {data.nickname}
+                            {data.profileImage ? (
+                                <Avatar
+                                    sx={{ width: 20, height: 20 }}
+                                    src={process.env.REACT_APP_API_URL + data.picture}
+                                />
+                            ) : (
+                                <AccountCircleIcon sx={{ width: 20, height: 20, color: 'white' }} />
+                            )}
+                            <Typography variant="subtitle2" sx={{ fontWeight: 'bold', ml: 1 }}>
+                                {data.nickname}
+                            </Typography>
                         </DropDownItem>
                     ))}
                 </DropDownBox>
@@ -135,6 +149,9 @@ const DropDownItem = styled('div')(({ theme }) => ({
     padding: '0.5em 0em',
     backgroundColor: alpha(theme.palette.common.white, 0.15),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
+    display: 'flex',
+    flexDirection: 'row',
+    alignItems: 'center',
     '&:hover': {
         backgroundColor: alpha(theme.palette.common.white, 0.5),
     },
