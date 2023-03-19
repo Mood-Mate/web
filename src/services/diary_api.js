@@ -50,13 +50,13 @@ class Diary {
             return null;
         }
     };
-    postDiary = async (title, contents, picture) => {
+    postDiary = async (title, contents, picture, secret) => {
         try {
             const formData = new FormData();
             const diaryCreateRequest = {
                 title,
                 contents,
-                secret: false,
+                secret,
             };
             const blob = new Blob([JSON.stringify(diaryCreateRequest)], {
                 type: 'application/json',
@@ -64,7 +64,7 @@ class Diary {
 
             formData.append('diaryCreateRequest', blob);
             if (picture) {
-                console.log(picture);
+                console.log('이미지 존재!', picture);
                 formData.append('picture', picture);
             }
             console.log('postDiary', formData);
@@ -75,23 +75,24 @@ class Diary {
             return false;
         }
     };
-    editDiary = async (diaryId, title, contents, picture) => {
+    editDiary = async (diaryId, title, contents, picture, secret) => {
         try {
             const formData = new FormData();
             const diaryUpdateRequest = {
                 diaryId,
                 title,
                 contents,
-                secret: false,
+                secret,
             };
             const blob = new Blob([JSON.stringify(diaryUpdateRequest)], {
                 type: 'application/json',
             });
             formData.append('diaryUpdateRequest', blob);
             if (picture) {
+                console.log('이미지 존재!', picture);
                 formData.append('picture', picture);
             }
-            await client.put('diary/edit', formData);
+            await client.patch('diary/edit', formData);
             console.log('editDiary', '성공');
             return true;
         } catch (error) {

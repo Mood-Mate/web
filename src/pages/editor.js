@@ -6,7 +6,8 @@ import { useLocation } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../atom/auth';
 import { styled } from '@mui/material/styles';
-
+import LockOpenIcon from '@mui/icons-material/LockOpen';
+import LockIcon from '@mui/icons-material/Lock';
 export default function Editor() {
     const [title, setTitle] = useState('');
     const [contents, setContents] = useState('');
@@ -15,6 +16,7 @@ export default function Editor() {
     const navigate = useNavigate();
     const [isNew, setIsNew] = useState(true);
     const user = useRecoilValue(userState);
+    const [secret, setSecret] = useState(false);
     useEffect(() => {
         console.log('editor');
 
@@ -23,6 +25,8 @@ export default function Editor() {
             setIsNew(false);
             setTitle(location.state.title ?? '');
             setContents(location.state.contents ?? '');
+            setImage(location.state.diaryPicture ?? null);
+            setSecret(location.state.secret ?? false);
         }
     }, [location.state]);
 
@@ -41,7 +45,7 @@ export default function Editor() {
         if (title !== '' && contents !== '') {
             console.log(isNew);
             if (isNew) {
-                diaryService.postDiary(title, contents, image.ref).then((res) => {
+                diaryService.postDiary(title, contents, image?.ref, secret).then((res) => {
                     if (res) {
                         alert('일기가 저장되었습니다.');
                         navigate('/' + user.id);
@@ -50,14 +54,16 @@ export default function Editor() {
                     }
                 });
             } else {
-                diaryService.editDiary(location.state.diaryId, title, contents).then((res) => {
-                    if (res) {
-                        alert('일기가 수정되었습니다.');
-                        navigate('/' + user.id);
-                    } else {
-                        alert('일기 수정에 실패했습니다.');
-                    }
-                });
+                diaryService
+                    .editDiary(location.state.diaryId, title, contents, image?.ref, secret)
+                    .then((res) => {
+                        if (res) {
+                            alert('일기가 수정되었습니다.');
+                            navigate('/' + user.id);
+                        } else {
+                            alert('일기 수정에 실패했습니다.');
+                        }
+                    });
             }
         }
     };
@@ -80,6 +86,10 @@ export default function Editor() {
                 });
             };
         }
+    };
+
+    const handleSecretChange = () => {
+        setSecret((secret) => !secret);
     };
     const onImageClick = (base64URL) => {
         let win = window.open();
@@ -108,7 +118,14 @@ export default function Editor() {
                         onChange={handleTitleChange}
                     />
                 </Box>
-                <Box sx={{ flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                <Box
+                    sx={{
+                        flexDirection: 'row',
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                        marginRight: 2,
+                    }}>
                     <ImageInputLabel className="editor-image-label" htmlFor="editor-image">
                         {'🏞️ 이미지 ' + (image ? '변경' : '추가')}
                     </ImageInputLabel>
@@ -126,6 +143,12 @@ export default function Editor() {
                             </a>
                         </Box>
                     )}
+                    <Button
+                        variant="outlined"
+                        startIcon={secret ? <LockIcon /> : <LockOpenIcon />}
+                        onClick={handleSecretChange}>
+                        {secret ? '비공개' : '공개'}
+                    </Button>
                 </Box>
                 <Box sx={boxStyle}>
                     <InputBase
