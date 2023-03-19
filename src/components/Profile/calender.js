@@ -49,7 +49,8 @@ export default function Calender({ userId }) {
     const CustomCalendarPicker = styled(CalendarPicker)`
         margin: 0;
         width: 100%;
-        height: 330px;
+        height: 334px;
+        padding: 0;
     `;
     function handleSelectedDay(newDate) {
         setDate(newDate);

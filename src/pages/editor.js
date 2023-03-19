@@ -127,26 +127,28 @@ export default function Editor() {
                         justifyContent: 'space-between',
                         marginRight: 2,
                     }}>
-                    <ImageInputLabel className="editor-image-label" htmlFor="editor-image">
-                        {'🏞️ 이미지 ' + (image ? '변경' : '추가')}
-                    </ImageInputLabel>
-                    <input
-                        type="file"
-                        id="editor-image"
-                        accept="image/*"
-                        onChange={handleImageChange}
-                        style={{ display: 'none' }}
-                    />
-                    {image && image.url && (
-                        <Box sx={{ paddingX: 2 }}>
-                            <a href={image.url} target="_top" rel="noreferrer">
-                                {image.ref.name}
-                            </a>
-                            <a href="" onClick={(e) => onImageClick(e, image.url)} rel="noreferrer">
-                                {image.ref.name}
-                            </a>
-                        </Box>
-                    )}
+                    <Box sx={{ flexDirection: 'row', display: 'flex', alignItems: 'center' }}>
+                        <ImageInputLabel className="editor-image-label" htmlFor="editor-image">
+                            {'🏞️ 이미지 ' + (image ? '변경' : '추가')}
+                        </ImageInputLabel>
+                        <input
+                            type="file"
+                            id="editor-image"
+                            accept="image/*"
+                            onChange={handleImageChange}
+                            style={{ display: 'none' }}
+                        />
+                        {image && image.url && (
+                            <Box sx={{ paddingX: 2 }}>
+                                <a
+                                    href=""
+                                    onClick={(e) => onImageClick(e, image.url)}
+                                    rel="noreferrer">
+                                    {image.ref.name}
+                                </a>
+                            </Box>
+                        )}
+                    </Box>
                     <Button
                         variant="outlined"
                         startIcon={secret ? <LockIcon /> : <LockOpenIcon />}
