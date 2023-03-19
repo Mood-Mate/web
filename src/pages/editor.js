@@ -91,12 +91,13 @@ export default function Editor() {
     const handleSecretChange = () => {
         setSecret((secret) => !secret);
     };
-    const onImageClick = (base64URL) => {
+    const onImageClick = (e, base64URL) => {
+        e.preventDefault();
         let win = window.open();
         win.document.write(
             '<iframe src="' +
                 base64URL +
-                '"  style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" allowfullscreen></iframe>',
+                '"  style="border:0; top:0px; left:0px; bottom:0px; right:0px; width:100%; height:100%;" ></iframe>',
         );
         win.document.close(); //close안해주면로딩창이 계속 뜸.
     };
@@ -138,7 +139,10 @@ export default function Editor() {
                     />
                     {image && image.url && (
                         <Box sx={{ paddingX: 2 }}>
-                            <a href="" onClick={() => onImageClick(image.url)} rel="noreferrer">
+                            <a href={image.url} target="_top" rel="noreferrer">
+                                {image.ref.name}
+                            </a>
+                            <a href="" onClick={(e) => onImageClick(e, image.url)} rel="noreferrer">
                                 {image.ref.name}
                             </a>
                         </Box>
