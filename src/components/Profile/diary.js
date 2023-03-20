@@ -82,7 +82,7 @@ export default function Diary(props) {
 
                 {props.data.title}
             </Typography>
-            {props.data.picture && (
+            {props.data.diaryPicture && (
                 <img
                     height="auto"
                     width="auto"
