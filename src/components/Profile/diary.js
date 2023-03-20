@@ -8,6 +8,8 @@ import { diaryState } from '../../atom/dairy';
 import diaryService from '../../services/diary_api';
 import { useNavigate } from 'react-router-dom';
 import { userState } from '../../atom/auth';
+import LockIcon from '@mui/icons-material/Lock';
+import LockOpenIcon from '@mui/icons-material/LockOpen';
 export default function Diary(props) {
     const [open, setOpen] = useState(false);
     const setDiary = useSetRecoilState(diaryState);
@@ -21,6 +23,8 @@ export default function Diary(props) {
                 diaryId: props.data.diaryId,
                 title: props.data.title,
                 contents: props.data.contents,
+                diaryPicture: props.data.diaryPicture,
+                secret: props.data.secret,
             },
         });
     };
@@ -69,6 +73,13 @@ export default function Diary(props) {
             ) : null}
 
             <Typography variant="h5" sx={{ paddingY: 1 }}>
+                {user.id === props.data.memberId &&
+                    (props.data.secret ? (
+                        <LockIcon sx={{ fontSize: 20, color: 'grey', marginRight: 1 }} />
+                    ) : (
+                        <LockOpenIcon sx={{ fontSize: 20, color: 'grey', marginRight: 1 }} />
+                    ))}
+
                 {props.data.title}
             </Typography>
             {props.data.picture && (
