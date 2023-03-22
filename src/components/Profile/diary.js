@@ -82,11 +82,11 @@ export default function Diary(props) {
 
                 {props.data.title}
             </Typography>
-            {props.data.picture && (
+            {props.data.diaryPicture && (
                 <img
                     height="auto"
                     width="auto"
-                    style={{ maxHeight: '500px', maxWidth: '100%' }}
+                    style={{ maxHeight: '200px', maxWidth: '100%' }}
                     alt="사진"
                     src={process.env.REACT_APP_API_URL + props.data.diaryPicture}
                     loading="lazy"
