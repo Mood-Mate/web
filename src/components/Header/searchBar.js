@@ -2,17 +2,23 @@ import { alpha, styled } from '@mui/material/styles';
 import { Avatar, InputBase } from '@mui/material';
 import SearchIcon from '@mui/icons-material/Search';
 import * as React from 'react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import authService from '../../services/auth_api';
 import { useNavigate } from 'react-router-dom';
 import Typography from '@mui/material/Typography';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
-const nameData = ['전민지다', '박명수다', '유재석이다'];
 
 export default function SearchBar() {
     const [recommendList, setRecommendList] = useState([]);
+    const [selected, setSelected] = useState(0);
     const navigate = useNavigate();
-
+    useEffect(() => {
+        if (recommendList.length === 0) return;
+        setSelected(0);
+    }, [recommendList]);
+    useEffect(() => {
+        console.log('selected', selected);
+    }, [selected]);
     const debounceFunction = (callback, delay) => {
         let timer;
         return (...args) => {
@@ -25,7 +31,14 @@ export default function SearchBar() {
             if (value !== '') {
                 authService
                     .getUserByKeyword(value)
-                    .then((result) => result && setRecommendList(result));
+                    .then(
+                        (result) =>
+                            result &&
+                            setRecommendList((list) =>
+                                list.toString() !== result.toString() ? result : list,
+                            ),
+                    );
+                setSelected(0);
             } else {
                 setRecommendList([]);
             }
@@ -37,16 +50,20 @@ export default function SearchBar() {
     };
     const onKeyPress = (e) => {
         if (e.key === 'Enter') {
-            // submitComment(e);
-            //recommendid가있으면 0 인덱스로 넘긴다....
-            // authService
-            //     .getUserByKeyword(value)
-            //     .then((result) => result && setRecommendList(result))
-            console.log(
-                'submit',
-                e.target.value,
-                recommendList.length > 0 ? recommendList[0].nickname : '',
-            );
+            if (recommendList.length === 0) return;
+            navigate(`/${recommendList[selected].memberId}`);
+        } else if (e.key === 'ArrowDown') {
+            if (selected === recommendList.length - 1) {
+                setSelected(0);
+            } else {
+                setSelected(selected + 1);
+            }
+        } else if (e.key === 'ArrowUp') {
+            if (selected === 0) {
+                setSelected(recommendList.length - 1);
+            } else {
+                setSelected(selected - 1);
+            }
         }
     };
     // {
@@ -66,12 +83,14 @@ export default function SearchBar() {
                 placeholder="Search…"
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleValue}
-                onKeyDown={onKeyPress}></StyledInputBase>
-            {nameData.length > 0 && recommendList.length !== 0 && (
+                onKeyDown={onKeyPress}
+            />
+            {recommendList.length !== 0 && (
                 <DropDownBox>
-                    {recommendList.map((data) => (
+                    {recommendList.map((data, index) => (
                         <DropDownItem
                             key={data.memberId}
+                            selected={index === selected}
                             onClick={() => {
                                 navigate(`/${data.memberId}`);
                             }}>
@@ -145,9 +164,11 @@ const DropDownBox = styled('div')(({ theme }) => ({
     borderRadius: theme.shape.borderRadius,
 }));
 
-const DropDownItem = styled('div')(({ theme }) => ({
+const DropDownItem = styled('div', {
+    shouldForwardProp: (prop) => prop !== 'selected',
+})(({ theme, selected }) => ({
     padding: '0.5em 0em',
-    backgroundColor: alpha(theme.palette.common.white, 0.15),
+    backgroundColor: alpha(theme.palette.common.white, selected ? 0.5 : 0.15),
     paddingLeft: `calc(1em + ${theme.spacing(4)})`,
     display: 'flex',
     flexDirection: 'row',
