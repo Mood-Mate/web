@@ -150,6 +150,26 @@ class Diary {
             return false;
         }
     };
+    //emoji/sympathy
+    // {
+    //     "memberId": 0,
+    //     "diaryId": 0,
+    //     "emojiType": "LOVE"
+    // }
+    sendEmoji = async (memberId, diaryId, emojiType) => {
+        try {
+            const response = await client.patch('emoji/sympathy', {
+                memberId,
+                diaryId,
+                emojiType,
+            });
+            console.log('sendEmoji', response);
+            return true;
+        } catch (error) {
+            console.log('sendEmoji', error);
+            return false;
+        }
+    };
 }
 const diaryService = new Diary();
 export default diaryService;

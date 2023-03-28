@@ -14,7 +14,7 @@ export default function UserImage(props) {
         <Link to={'/' + props.userId}>
             <Avatar
                 sx={{ width: props.width, height: props.width, margin: 'auto' }}
-                src={imageUrl}
+                src={imageUrl ?? defaultUserImage}
                 imgProps={{
                     onError: () => {
                         setImageUrl(defaultUserImage);
