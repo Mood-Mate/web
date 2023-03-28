@@ -1,10 +1,9 @@
 import * as React from 'react';
-import NotificationsIcon from '@mui/icons-material/Notifications';
 import MoreIcon from '@mui/icons-material/MoreVert';
 import SettingsIcon from '@mui/icons-material/Settings';
 import DriveFileRenameOutlineIcon from '@mui/icons-material/DriveFileRenameOutline';
 import { useNavigate } from 'react-router-dom';
-import { Button, IconButton, AppBar, Box, Toolbar, Badge, MenuItem, Menu } from '@mui/material';
+import { Button, IconButton, AppBar, Box, Toolbar, MenuItem, Menu } from '@mui/material';
 import { useResetRecoilState } from 'recoil';
 import { userState } from '../atom/auth';
 import SearchBar from './Header/searchBar';
@@ -128,7 +127,7 @@ export default function PrimarySearchAppBar() {
                             justifyContent: 'center',
                         }}>
                         <Button color={'inherit'} variant="text" onClick={() => navigate('/')}>
-                            Diary
+                            MoodMate
                         </Button>
                     </Box>
                     <SearchBar />
