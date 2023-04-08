@@ -11,14 +11,12 @@ import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 export default function SearchBar() {
     const [recommendList, setRecommendList] = useState([]);
     const [selected, setSelected] = useState(0);
+    const [onFocus, setOnFocus] = useState(false);
     const navigate = useNavigate();
     useEffect(() => {
         if (recommendList.length === 0) return;
         setSelected(0);
     }, [recommendList]);
-    useEffect(() => {
-        console.log('selected', selected);
-    }, [selected]);
     const debounceFunction = (callback, delay) => {
         let timer;
         return (...args) => {
@@ -66,14 +64,6 @@ export default function SearchBar() {
             }
         }
     };
-    // {
-    //     "memberId": 2,
-    //     "email": "aa",
-    //     "picture": null,
-    //     "name": "string",
-    //     "nickname": "string",
-    //     "followAt": "Y"
-    // },
     return (
         <Search sx={{ flexGrow: 1, margin: 'auto', maxWidth: 400 }}>
             <SearchIconWrapper>
@@ -84,8 +74,14 @@ export default function SearchBar() {
                 inputProps={{ 'aria-label': 'search' }}
                 onChange={handleValue}
                 onKeyDown={onKeyPress}
+                onBlur={() => {
+                    setOnFocus(false);
+                }}
+                onFocus={() => {
+                    setOnFocus(true);
+                }}
             />
-            {recommendList.length !== 0 && (
+            {recommendList.length !== 0 && onFocus && (
                 <DropDownBox>
                     {recommendList.map((data, index) => (
                         <DropDownItem
