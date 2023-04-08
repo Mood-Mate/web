@@ -4,7 +4,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useState } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
-import { diaryState } from '../../atom/dairy';
+import { profileDiaryState } from '../../atom/dairy';
 import diaryService from '../../services/diary_api';
 import { useNavigate } from 'react-router-dom';
 import { userState } from '../../atom/auth';
@@ -12,7 +12,7 @@ import LockIcon from '@mui/icons-material/Lock';
 import LockOpenIcon from '@mui/icons-material/LockOpen';
 export default function Diary(props) {
     const [open, setOpen] = useState(false);
-    const setDiary = useSetRecoilState(diaryState);
+    const setDiary = useSetRecoilState(profileDiaryState);
     const navigate = useNavigate();
     const user = useRecoilValue(userState);
 
