@@ -4,38 +4,31 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import Post from '../components/Profile/post';
 import { useRecoilValue } from 'recoil';
 import GuestBook from '../components/Profile/guestBook';
-import { useEffect, useState } from 'react';
-import diaryService from '../services/diary_api';
+import { useCallback, useRef, useState } from 'react';
 import { userState } from '../atom/auth';
 import HomeProfile from '../components/Home/homeProfile';
+import useHomePosts from '../hook/useHomePosts';
 
 export default function Home() {
     const isMobile = useMediaQuery('(max-width: 700px)');
-    const [diaryData, setDiaryData] = useState({ data: [], next: null });
+    const [currentPage, setCurrentPage] = useState(0);
     const user = useRecoilValue(userState);
+    const [diaryList, next, error, loading] = useHomePosts(currentPage);
 
-    useEffect(() => {
-        diaryService.getFollowingDiary(diaryData.next).then((res) => {
-            if (res?.data) {
-                setDiaryData((diary) => {
-                    const newData = [...diary.data, ...res.data.data];
-                    const filteredData = newData.reduce(function (acc, current) {
-                        if (acc.findIndex(({ diaryId }) => diaryId === current.diaryId) === -1) {
-                            acc.push(current);
-                        }
-                        return acc;
-                    }, []);
-                    return {
-                        data: filteredData,
-                        next: res.data.next,
-                    };
-                });
-            } else {
-                alert('일기를 불러오는데 실패했습니다.');
-            }
-        });
-    }, []);
-
+    const observer = useRef();
+    const lastPostElementRef = useCallback(
+        (node) => {
+            if (loading || next == null) return;
+            if (observer.current) observer.current.disconnect();
+            observer.current = new IntersectionObserver((entries) => {
+                if (entries[0].isIntersecting && next != null) {
+                    setCurrentPage(next);
+                }
+            });
+            if (node) observer.current.observe(node);
+        },
+        [loading, next],
+    );
     const boxStyle = {
         borderRadius: 2,
         border: 2,
@@ -63,15 +56,21 @@ export default function Home() {
                 </Box>
 
                 <Box sx={{ maxWidth: 760, minWidth: 350, width: '100%' }}>
-                    {diaryData.data.length > 0 ? (
-                        diaryData.data.map((data) => (
-                            <Post
-                                key={data['diaryId']}
-                                data={data}
-                                style={boxStyle}
-                                isFollowing={true}
-                            />
-                        ))
+                    {diaryList.length > 0 ? (
+                        <>
+                            {diaryList.map((data) => (
+                                <Post
+                                    key={data['diaryId']}
+                                    data={data}
+                                    style={boxStyle}
+                                    isFollowing={true}
+                                />
+                            ))}
+                            <Typography variant="h5" align={'center'} ref={lastPostElementRef}>
+                                {loading && 'Loading...'}
+                                {error != null && 'Error...'}
+                            </Typography>
+                        </>
                     ) : (
                         <Typography
                             variant="h5"

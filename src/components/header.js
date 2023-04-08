@@ -121,13 +121,18 @@ export default function PrimarySearchAppBar() {
                 <Toolbar>
                     <Box
                         sx={{
-                            display: { xs: 'none', md: 'flex' },
+                            display: { md: 'flex' },
                             flexGrow: 1,
                             alignItems: 'center',
                             justifyContent: 'center',
                         }}>
-                        <Button color={'inherit'} variant="text" onClick={() => navigate('/')}>
-                            MoodMate
+                        <Button
+                            color={'inherit'}
+                            variant="text"
+                            sx={{ flexDirection: { xs: 'column', md: 'row' } }}
+                            onClick={() => navigate('/')}>
+                            <div style={{ lineHeight: 1 }}>Mood</div>
+                            <div style={{ lineHeight: 1 }}>Mate</div>
                         </Button>
                     </Box>
                     <SearchBar />

@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-export const diaryState = atom({
+export const profileDiaryState = atom({
     key: 'diaryState',
     default: [],
 });

@@ -1,26 +1,35 @@
 import { Box, Divider, IconButton } from '@mui/material';
 
 import diaryService from '../../services/diary_api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AngryIcon, CryIcon, LoveIcon, StupidIcon } from '../Common/emoji_svg';
 
 //
 export default function Emojis(props) {
     let [emojis, setEmojis] = useState({
-        LOVE: false,
-        SAD: false,
-        ANGRY: false,
-        STUPID: false,
+        LOVE: props.emoji === 'LOVE',
+        SAD: props.emoji === 'SAD',
+        ANGRY: props.emoji === 'ANGRY',
+        STUPID: props.emoji === 'STUPID',
     });
+
     const handleEmojiClick = async (e) => {
         const emojiType = e.currentTarget.id;
         console.log(e.currentTarget.id);
         const result = await diaryService.sendEmoji(props.memberId, props.diaryId, emojiType);
         console.log(emojiType);
         if (result) {
-            setEmojis({
-                ...emojis,
-                [emojiType]: !emojis[emojiType],
+            setEmojis((prev) => {
+                let preEmojis = { ...prev };
+                for (let key in preEmojis) {
+                    if (key === emojiType) {
+                        preEmojis[key] = !preEmojis[key];
+                    } else {
+                        preEmojis[key] = false;
+                    }
+                }
+                console.log(preEmojis);
+                return preEmojis;
             });
         }
     };

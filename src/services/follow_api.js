@@ -29,29 +29,16 @@ class Follow {
             return null;
         }
     };
-    follow = async (memberId) => {
+    follow = async (rootUserId, userId) => {
         try {
-            const response = await client.post('follow', {
-                memberId: parseInt(memberId),
+            const response = await client.patch('follow', {
+                followerMemberId: parseInt(rootUserId),
+                followingMemberId: parseInt(userId),
             });
             console.log('follow', response);
             return response;
         } catch (error) {
             console.log('follow', error);
-            return null;
-        }
-    };
-    unfollow = async (memberId) => {
-        try {
-            const response = await client.delete('follow', {
-                data: {
-                    memberId: parseInt(memberId),
-                },
-            });
-            console.log('unfollow', response);
-            return response;
-        } catch (error) {
-            console.log('unfollow', error);
             return null;
         }
     };

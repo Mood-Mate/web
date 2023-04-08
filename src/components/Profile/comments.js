@@ -4,12 +4,12 @@ import SendIcon from '@mui/icons-material/Send';
 import { useState } from 'react';
 import diaryService from '../../services/diary_api';
 import { useSetRecoilState } from 'recoil';
-import { diaryState } from '../../atom/dairy';
+import { profileDiaryState } from '../../atom/dairy';
 import UserImage from '../Common/userImage';
 
 export default function Comments(props) {
     const [comment, setComment] = useState('');
-    const setDiary = useSetRecoilState(diaryState);
+    const setDiary = useSetRecoilState(profileDiaryState);
     const submitComment = (e) => {
         e.preventDefault();
         console.log('댓글: ' + comment);

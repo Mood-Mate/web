@@ -7,14 +7,14 @@ import { styled } from '@mui/material/styles';
 import 'dayjs/locale/ko';
 import { useSetRecoilState } from 'recoil';
 
-import { diaryState } from 'atom/dairy';
+import { profileDiaryState } from 'atom/dairy';
 import diaryService from '../../services/diary_api';
 import FiberManualRecordIcon from '@mui/icons-material/FiberManualRecord';
 import { Badge, Box } from '@mui/material';
 
 export default function Calender({ userId }) {
     const [date, setDate] = useState(dayjs());
-    const setDiary = useSetRecoilState(diaryState);
+    const setDiary = useSetRecoilState(profileDiaryState);
     let diaryDays = null;
     const [init, setInit] = useState(false);
 
