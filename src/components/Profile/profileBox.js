@@ -10,25 +10,15 @@ import followService from '../../services/follow_api';
 export default function ProfileBox(props) {
     const rootUser = useRecoilValue(userState);
     const [isFollowing, setIsFollowing] = useState(false);
-    const [user, setUser] = useState(null);
+    const [userData, setUserData] = useState(null);
     const handleFollow = () => {
-        if (isFollowing) {
-            followService.unfollow(props.userId).then((res) => {
-                if (res) {
-                    setIsFollowing(false);
-                } else {
-                    alert('언팔로우에 실패했습니다.');
-                }
-            });
-        } else {
-            followService.follow(props.userId).then((res) => {
-                if (res) {
-                    setIsFollowing(true);
-                } else {
-                    alert('팔로우에 실패했습니다.');
-                }
-            });
-        }
+        followService.follow(rootUser.id, props.userId).then((res) => {
+            if (res) {
+                setIsFollowing((prev) => !prev);
+            } else {
+                alert((isFollowing ? '언팔로우' : '팔로우') + '에 실패했습니다.');
+            }
+        });
     };
     useEffect(() => {
         if (props.userId && rootUser.id) {
@@ -37,15 +27,15 @@ export default function ProfileBox(props) {
             authService.getUserInfoById(props.userId).then((res) => {
                 if (res) {
                     console.log(res);
-                    setUser(res);
+                    setUserData(res);
                 } else {
                     alert('유저 정보를 불러오는데 실패했습니다.');
                 }
             });
-            if (rootUser.id != props.userId) {
+            if (rootUser.id !== props.userId) {
                 followService.getFollowing(rootUser.id).then((res) => {
                     if (res) {
-                        res.data.some((e) => e.followingMemberId == props.userId) &&
+                        res.data.some((e) => e.followingMemberId === props.userId) &&
                             setIsFollowing(true);
                     } else {
                         alert('팔로잉 정보를 불러오는데 실패했습니다.');
@@ -55,7 +45,7 @@ export default function ProfileBox(props) {
         }
     }, [props.userId, rootUser.id]);
     return (
-        user && (
+        userData && (
             <>
                 <Box
                     sx={{
@@ -65,18 +55,18 @@ export default function ProfileBox(props) {
                         alignItems: 'flex-start',
                         textAlign: 'center',
                     }}>
-                    <UserImage userId={props.userId} width={80} profileImage={user.picture} />
+                    <UserImage userId={props.userId} width={80} profileImage={userData.picture} />
                     <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                         <Typography
                             variant="h6"
                             sx={{ fontWeight: 'bold', textAlign: 'left', paddingLeft: 4 }}>
-                            {user.nickname}
+                            {userData.nickname}
                         </Typography>
                         <Box sx={{ display: 'flex', flexDirection: 'row', paddingTop: 1 }}>
-                            <Box sx={{ width: 100 }}>{user.followerCount + '명'}</Box>
-                            <Box sx={{ width: 100 }}>{user.followingCount + '명'}</Box>
+                            <Box sx={{ width: 100 }}>{userData.followerCount + '명'}</Box>
+                            <Box sx={{ width: 100 }}>{userData.followingCount + '명'}</Box>
                         </Box>
-                        {rootUser.id != props.userId && (
+                        {rootUser.id !== props.userId && (
                             <Box sx={{ width: '100%', textAlign: 'center', marginTop: 1 }}>
                                 <Button
                                     sx={{
@@ -93,7 +83,9 @@ export default function ProfileBox(props) {
                     </Box>
                 </Box>
 
-                {user.introduce && <Typography sx={{ paddingY: 3 }}>{user.introduce}</Typography>}
+                {userData.introduce && (
+                    <Typography sx={{ paddingY: 3 }}>{userData.introduce}</Typography>
+                )}
             </>
         )
     );

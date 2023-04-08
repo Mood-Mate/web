@@ -5,14 +5,14 @@ import ProfileBox from '../components/Profile/profileBox';
 import Calender from '../components/Profile/calender';
 import Post from '../components/Profile/post';
 import { useRecoilValue } from 'recoil';
-import { diaryState } from 'atom/dairy';
+import { profileDiaryState } from 'atom/dairy';
 import GuestBook from 'components/Profile/guestBook';
 import { useParams } from 'react-router-dom';
 
 export default function Profile(props) {
     const isMobile = useMediaQuery('(max-width: 700px)');
 
-    const diaryData = useRecoilValue(diaryState);
+    const diaryData = useRecoilValue(profileDiaryState);
     const { userId } = useParams();
 
     const boxStyle = {
