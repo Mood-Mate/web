@@ -13,9 +13,6 @@ export default function Emojis(props) {
         STUPID: props.emoji === 'STUPID',
     });
 
-    useEffect(() => {
-        console.log('emojis', emojis);
-    }, [emojis]);
     const handleEmojiClick = async (e) => {
         const emojiType = e.currentTarget.id;
         console.log(e.currentTarget.id);
