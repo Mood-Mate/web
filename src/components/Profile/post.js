@@ -26,7 +26,11 @@ export default function Post(props) {
                 </Box>
             )}
             <Diary data={props.data} />
-            <Emojis memberId={props.data.memberId} diaryId={props.data.diaryId} />
+            <Emojis
+                memberId={props.data.memberId}
+                diaryId={props.data.diaryId}
+                emoji={props.data.emoji}
+            />
             {props.isFollowing ? (
                 <>
                     <Typography
