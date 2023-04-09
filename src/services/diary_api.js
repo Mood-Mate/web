@@ -122,27 +122,10 @@ class Diary {
         }
     };
 
-    editComment = async (commentId, contents) => {
-        try {
-            await client.put('comment/edit', {
-                commentId,
-                contents,
-            });
-            console.log('editComment', '성공');
-            return true;
-        } catch (error) {
-            console.log('editComment', error);
-            return false;
-        }
-    };
     deleteComment = async (commentId) => {
         try {
             console.log('deleteComment');
-            await client.delete('comment/delete', {
-                data: {
-                    commentId,
-                },
-            });
+            await client.delete(`diary/reply/${commentId}`);
             console.log('deleteComment', '성공');
             return true;
         } catch (error) {
