@@ -3,6 +3,7 @@ import SendIcon from '@mui/icons-material/Send';
 import { useEffect, useState } from 'react';
 import guestBookService from '../../services/guestBook_api';
 import { parseDate } from '../util/util';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function GuestBook(props) {
     const boxStyle = props.style;
@@ -95,7 +96,14 @@ export default function GuestBook(props) {
                         placeholder="방명록을 남겨주세요"
                         inputProps={{ 'aria-label': '방명록 입력' }}
                         onChange={handleCommentInput}
-                        // onKeyDown={onKeyPress}
+                        value={guestBookInput}
+                        onKeyPress={(e) => {
+                            if (e.key === 'Enter') {
+                                e.preventDefault();
+                                e.target.blur();
+                                submitComment();
+                            }
+                        }}
                     />
                     <IconButton
                         type="button"

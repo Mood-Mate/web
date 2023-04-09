@@ -6,12 +6,12 @@ import diaryService from '../../services/diary_api';
 import { useSetRecoilState } from 'recoil';
 import { profileDiaryState } from '../../atom/dairy';
 import UserImage from '../Common/userImage';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Comments(props) {
     const [comment, setComment] = useState('');
     const setDiary = useSetRecoilState(profileDiaryState);
-    const submitComment = (e) => {
-        e.preventDefault();
+    const submitComment = () => {
         console.log('댓글: ' + comment);
         if (comment !== '') {
             diaryService.postComment(props.data.diaryId, comment).then((res) => {
@@ -38,9 +38,11 @@ export default function Comments(props) {
     const handleComment = (e) => {
         setComment(e.target.value);
     };
-    const onKeyPress = (e) => {
+    const onKeyDown = (e) => {
         if (e.key === 'Enter') {
-            submitComment(e);
+            e.preventDefault();
+            e.target.blur();
+            submitComment();
         }
     };
     const handleDelete = (e, id) => {
@@ -140,7 +142,8 @@ export default function Comments(props) {
                     placeholder="댓글을 입력해주세요..."
                     inputProps={{ 'aria-label': '댓글 입력' }}
                     onChange={handleComment}
-                    onKeyDown={onKeyPress}
+                    onKeyPress={onKeyDown}
+                    value={comment}
                 />
                 <IconButton
                     type="button"
