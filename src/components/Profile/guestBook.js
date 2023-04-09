@@ -23,7 +23,7 @@ export default function GuestBook(props) {
         if (guestBookInput) {
             guestBookService.postGuestBook(props.userId, guestBookInput).then((res) => {
                 if (res) {
-                    setGuestBook([...guestBook, res]);
+                    setGuestBook([res, ...guestBook]);
                     setGuestBookInput('');
                 } else {
                     alert('방명록을 작성하는데 실패했습니다.');
@@ -35,13 +35,17 @@ export default function GuestBook(props) {
     const handleCommentInput = (e) => {
         setGuestBookInput(e.target.value);
     };
-    // contents: "\"방명록을남기자\""
-    // guestBookId: 3
-    // guestMemberId: 78
-    // hostMemberId: 78
-    // nickname: "string"
-    // regDt: "2023-02-23T13:35:59"
 
+    const handleDelete = (e, id) => {
+        e.preventDefault();
+        guestBookService.deleteGuestBook(id).then((res) => {
+            if (res) {
+                setGuestBook(guestBook.filter((data) => data['guestBookId'] !== id));
+            } else {
+                alert('방명록 삭제에 실패했습니다.');
+            }
+        });
+    };
     return (
         props.userId && (
             <Box sx={{ ...boxStyle }}>
@@ -60,7 +64,13 @@ export default function GuestBook(props) {
                                 }}>
                                 <Typography variant="subtitle1">
                                     {data.nickname + ' | ' + parseDate(data.regDt)}
+                                    <IconButton
+                                        sx={{ float: 'right', color: '#dde2de', padding: 0 }}
+                                        onClick={(e) => handleDelete(e, data['guestBookId'])}>
+                                        <DeleteIcon sx={{ width: 20 }} />
+                                    </IconButton>
                                 </Typography>
+
                                 <Typography variant="subtitle2">{data.contents}</Typography>
                             </Box>
                         ))}
