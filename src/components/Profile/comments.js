@@ -43,6 +43,27 @@ export default function Comments(props) {
             submitComment(e);
         }
     };
+    const handleDelete = (e, id) => {
+        e.preventDefault();
+        diaryService.deleteComment(id).then((res) => {
+            if (res) {
+                setDiary((prev) => {
+                    const tmp = [...prev];
+                    return tmp.map((diary) => {
+                        if (diary.diaryId === props.data.diaryId) {
+                            let filteredComments = diary.comments.filter(
+                                (comment) => comment.diaryCommentId !== id,
+                            );
+                            return { ...diary, comments: filteredComments };
+                        }
+                        return diary;
+                    });
+                });
+            } else {
+                alert('댓글 삭제에 실패했습니다.');
+            }
+        });
+    };
 
     return (
         <>
@@ -50,7 +71,7 @@ export default function Comments(props) {
                 <Stack spacing={1}>
                     {props.data.comments.map((comment) => (
                         <Box
-                            key={comment.diaryCommentId}
+                            key={comment['diaryCommentId']}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'flex-start',
@@ -87,6 +108,16 @@ export default function Comments(props) {
                                     <Typography sx={{ color: 'text.primary', fontSize: 12 }}>
                                         {' | ' + comment.regDt.replace('T', ' ')}
                                     </Typography>
+                                    <IconButton
+                                        sx={{
+                                            float: 'right',
+                                            color: '#959595',
+                                            paddingY: 0,
+                                            paddingRight: 0,
+                                        }}
+                                        onClick={(e) => handleDelete(e, comment['diaryCommentId'])}>
+                                        <DeleteIcon sx={{ width: 20 }} />
+                                    </IconButton>
                                 </Box>
 
                                 <Typography variant="body1">{comment.contents}</Typography>
