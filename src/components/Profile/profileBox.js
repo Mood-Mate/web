@@ -1,16 +1,23 @@
 import { Box, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import authService from '../../services/auth_api';
 import UserImage from '../Common/userImage';
 import { useRecoilValue } from 'recoil';
 import { userState } from '../../atom/auth';
 import followService from '../../services/follow_api';
+import FollowDialog from '../Home/followDialog';
 
+function FollowData(type, data) {
+    this.type = type;
+    this.data = data;
+}
 export default function ProfileBox(props) {
     const rootUser = useRecoilValue(userState);
     const [isFollowing, setIsFollowing] = useState(false);
     const [userData, setUserData] = useState(null);
+    const [open, setOpen] = useState(null);
+
     const handleFollow = () => {
         followService.follow(rootUser.id, props.userId).then((res) => {
             if (res) {
@@ -44,6 +51,32 @@ export default function ProfileBox(props) {
             }
         }
     }, [props.userId, rootUser.id]);
+
+    const handleClickOpen = (type) => {
+        if (type === 'follower') {
+            followService.getFollower(props.userId).then((res) => {
+                if (res) {
+                    setOpen(new FollowData(type, res.data));
+                } else {
+                    alert('팔로워 정보를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+        if (type === 'following') {
+            followService.getFollowing(props.userId).then((res) => {
+                if (res) {
+                    setOpen(new FollowData(type, res.data));
+                } else {
+                    alert('팔로잉 정보를 불러오는데 실패했습니다.');
+                }
+            });
+        }
+    };
+
+    const handleClose = () => {
+        setOpen(null);
+    };
+
     return (
         userData && (
             <>
@@ -62,9 +95,28 @@ export default function ProfileBox(props) {
                             sx={{ fontWeight: 'bold', textAlign: 'left', paddingLeft: 4 }}>
                             {userData.nickname}
                         </Typography>
-                        <Box sx={{ display: 'flex', flexDirection: 'row', paddingTop: 1 }}>
-                            <Box sx={{ width: 100 }}>{userData.followerCount + '명'}</Box>
-                            <Box sx={{ width: 100 }}>{userData.followingCount + '명'}</Box>
+                        <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+                            <Box>
+                                <Typography sx={{ paddingY: 0, fontSize: '0.7rem', color: 'grey' }}>
+                                    팔로워
+                                </Typography>
+                                <Box
+                                    sx={{ width: 100, cursor: 'pointer' }}
+                                    onClick={() => handleClickOpen('follower')}>
+                                    {userData.followerCount + '명'}
+                                </Box>
+                            </Box>
+                            <Box>
+                                <Typography sx={{ paddingY: 0, fontSize: '0.7rem', color: 'grey' }}>
+                                    팔로잉
+                                </Typography>
+
+                                <Box
+                                    sx={{ width: 100, cursor: 'pointer' }}
+                                    onClick={() => handleClickOpen('following')}>
+                                    {userData.followingCount + '명'}
+                                </Box>
+                            </Box>
                         </Box>
                         {rootUser.id !== props.userId && (
                             <Box sx={{ width: '100%', textAlign: 'center', marginTop: 1 }}>
@@ -86,6 +138,7 @@ export default function ProfileBox(props) {
                 {userData.introduce && (
                     <Typography sx={{ paddingY: 3 }}>{userData.introduce}</Typography>
                 )}
+                <FollowDialog open={open} handleClose={handleClose} />
             </>
         )
     );
