@@ -23,6 +23,17 @@ class GuestBook {
             return null;
         }
     };
+
+    deleteGuestBook = async (guestBookId) => {
+        try {
+            const response = await client.delete(`guestBook/${guestBookId}`);
+            console.log('deleteGuestBook', response.data);
+            return true;
+        } catch (error) {
+            console.log('deleteGuestBook', error);
+            return false;
+        }
+    };
 }
 
 const guestBookService = new GuestBook();

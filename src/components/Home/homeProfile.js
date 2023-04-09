@@ -1,10 +1,11 @@
-import { Avatar, Box, Button, Dialog, Divider } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import Typography from '@mui/material/Typography';
 import { useEffect, useState } from 'react';
 import authService from '../../services/auth_api';
 import UserImage from '../Common/userImage';
 import { useNavigate } from 'react-router-dom';
 import followService from '../../services/follow_api';
+import FollowDialog from './followDialog';
 
 function FollowData(type, data) {
     this.type = type;
@@ -15,9 +16,6 @@ export default function HomeProfile(props) {
     const [open, setOpen] = useState(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        console.log('open', open);
-    }, [open]);
     const handleClickOpen = (type) => {
         if (type === 'follower') {
             followService.getFollower(props.userId).then((res) => {
@@ -37,7 +35,6 @@ export default function HomeProfile(props) {
                 }
             });
         }
-        // setOpen(type);
     };
 
     const handleClose = () => {
@@ -137,64 +134,7 @@ export default function HomeProfile(props) {
                         </Typography>
                     </Box>
                 </Box>
-                <Dialog
-                    open={Boolean(open)}
-                    onClose={handleClose}
-                    aria-labelledby="alert-dialog-title"
-                    aria-describedby="alert-dialog-description">
-                    <Box
-                        sx={{
-                            width: 400,
-                            height: 700,
-                            backgroundColor: 'background.default',
-                            padding: 2,
-                        }}>
-                        {open && (
-                            <>
-                                <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
-                                    {open.type}
-                                </Typography>
-                                {open.data.map((user, index) => {
-                                    return (
-                                        <Box sx={{ width: '100%' }} key={user.followId}>
-                                            <Box
-                                                sx={{
-                                                    display: 'flex',
-                                                    flexDirection: 'row',
-                                                    alignItems: 'center',
-                                                    paddingX: 1,
-                                                    paddingY: 1,
-                                                }}>
-                                                <UserImage
-                                                    width={40}
-                                                    userId={
-                                                        open.type === 'following'
-                                                            ? user.followingMemberId
-                                                            : user.followerMemberId
-                                                    }
-                                                    profileImage={user.picture}
-                                                />
-                                                <Typography
-                                                    variant="subtitle1"
-                                                    sx={{ marginLeft: 4, flexGrow: 1 }}>
-                                                    {user.nickname}
-                                                </Typography>
-                                                {open.type === 'following' && (
-                                                    <Button
-                                                        variant="contained"
-                                                        sx={{ backgroundColor: 'grey' }}>
-                                                        취소
-                                                    </Button>
-                                                )}
-                                            </Box>
-                                            {index !== open.length - 1 && <Divider />}
-                                        </Box>
-                                    );
-                                })}
-                            </>
-                        )}
-                    </Box>
-                </Dialog>
+                <FollowDialog open={open} handleClose={handleClose} />
             </Box>
         )
     );

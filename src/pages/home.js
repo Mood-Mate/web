@@ -18,10 +18,12 @@ export default function Home() {
     const observer = useRef();
     const lastPostElementRef = useCallback(
         (node) => {
+            console.log('lastPostElementRef', node, loading, next, observer.current);
             if (loading || next == null) return;
             if (observer.current) observer.current.disconnect();
             observer.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting && next != null) {
+                    console.log('ref,entries[0].isIntersecting', entries[0]);
                     setCurrentPage(next);
                 }
             });
@@ -41,7 +43,6 @@ export default function Home() {
         <div className="profile">
             <AppBar />
             <HomeProfile userId={user.id} style={boxStyle} />
-
             <Box
                 sx={{
                     margin: 'auto',
@@ -77,7 +78,7 @@ export default function Home() {
                             align={'center'}
                             sx={{ paddingY: '30vh', whiteSpace: 'pre-line' }}
                             gutterBottom>
-                            {'등록된 글이 없습니다.\n글을 등록해보세요.'}
+                            {'팔로잉 된 글이 없습니다.\n팔로우해보세요.'}
                         </Typography>
                     )}
                 </Box>

@@ -6,12 +6,12 @@ import diaryService from '../../services/diary_api';
 import { useSetRecoilState } from 'recoil';
 import { profileDiaryState } from '../../atom/dairy';
 import UserImage from '../Common/userImage';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 export default function Comments(props) {
     const [comment, setComment] = useState('');
     const setDiary = useSetRecoilState(profileDiaryState);
-    const submitComment = (e) => {
-        e.preventDefault();
+    const submitComment = () => {
         console.log('댓글: ' + comment);
         if (comment !== '') {
             diaryService.postComment(props.data.diaryId, comment).then((res) => {
@@ -38,10 +38,33 @@ export default function Comments(props) {
     const handleComment = (e) => {
         setComment(e.target.value);
     };
-    const onKeyPress = (e) => {
+    const onKeyDown = (e) => {
         if (e.key === 'Enter') {
-            submitComment(e);
+            e.preventDefault();
+            e.target.blur();
+            submitComment();
         }
+    };
+    const handleDelete = (e, id) => {
+        e.preventDefault();
+        diaryService.deleteComment(id).then((res) => {
+            if (res) {
+                setDiary((prev) => {
+                    const tmp = [...prev];
+                    return tmp.map((diary) => {
+                        if (diary.diaryId === props.data.diaryId) {
+                            let filteredComments = diary.comments.filter(
+                                (comment) => comment.diaryCommentId !== id,
+                            );
+                            return { ...diary, comments: filteredComments };
+                        }
+                        return diary;
+                    });
+                });
+            } else {
+                alert('댓글 삭제에 실패했습니다.');
+            }
+        });
     };
 
     return (
@@ -50,7 +73,7 @@ export default function Comments(props) {
                 <Stack spacing={1}>
                     {props.data.comments.map((comment) => (
                         <Box
-                            key={comment.diaryCommentId}
+                            key={comment['diaryCommentId']}
                             sx={{
                                 display: 'flex',
                                 alignItems: 'flex-start',
@@ -87,6 +110,16 @@ export default function Comments(props) {
                                     <Typography sx={{ color: 'text.primary', fontSize: 12 }}>
                                         {' | ' + comment.regDt.replace('T', ' ')}
                                     </Typography>
+                                    <IconButton
+                                        sx={{
+                                            float: 'right',
+                                            color: '#959595',
+                                            paddingY: 0,
+                                            paddingRight: 0,
+                                        }}
+                                        onClick={(e) => handleDelete(e, comment['diaryCommentId'])}>
+                                        <DeleteIcon sx={{ width: 20 }} />
+                                    </IconButton>
                                 </Box>
 
                                 <Typography variant="body1">{comment.contents}</Typography>
@@ -109,7 +142,8 @@ export default function Comments(props) {
                     placeholder="댓글을 입력해주세요..."
                     inputProps={{ 'aria-label': '댓글 입력' }}
                     onChange={handleComment}
-                    onKeyDown={onKeyPress}
+                    onKeyPress={onKeyDown}
+                    value={comment}
                 />
                 <IconButton
                     type="button"
