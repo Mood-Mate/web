@@ -8,7 +8,7 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { MobileDatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
@@ -35,12 +35,23 @@ export default function SignUp() {
         password: '',
         name: '',
         nickname: '',
-        gender: '',
+        gender: 'man',
         birth: dayjs(),
     });
+    const [helperText, setHelperText] = useState({
+        email: '',
+        password: '',
+        name: '',
+        nickname: '',
+    });
 
+    useEffect(() => {
+        console.log(helperText);
+    }, [helperText]);
     const { email, password, name, nickname, gender, birth } = inputs; // 비구조화 할당
     const navigate = useNavigate();
+    const emailRegex = /^[^\s@]+@[^\s@]+.[^\s@]+$/;
+    const passwordRegex = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[!@#?])[a-zA-Z\d!@#?]{6,20}$/;
 
     const handleChange = (e) => {
         const { value, name } = e.target;
@@ -63,11 +74,34 @@ export default function SignUp() {
     };
     const handleSubmit = (event) => {
         event.preventDefault();
-        authService.createUser(inputs).then((res) => {
-            if (res) {
-                navigate('/login');
-            }
-        });
+        if (checkSubmit()) {
+            authService.createUser(inputs).then((res) => {
+                if (res) {
+                    navigate('/login');
+                }
+            });
+        }
+    };
+
+    const checkSubmit = () => {
+        if (
+            emailRegex.test(email) &&
+            passwordRegex.test(password) &&
+            name &&
+            nickname &&
+            gender &&
+            birth
+        ) {
+            return true;
+        } else {
+            setHelperText({
+                email: emailRegex.test(email) ? '' : '이메일 형식이 아닙니다.',
+                password: passwordRegex.test(password) ? '' : '비밀번호 형식이 아닙니다.',
+                name: name ? '' : '이름을 입력해주세요.',
+                nickname: nickname ? '' : '닉네임을 입력해주세요.',
+            });
+            return false;
+        }
     };
 
     return (
@@ -99,6 +133,7 @@ export default function SignUp() {
                                 autoFocus
                                 onChange={handleChange}
                                 value={name}
+                                error={Boolean(helperText.name)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -111,6 +146,10 @@ export default function SignUp() {
                                 autoComplete="email"
                                 onChange={handleChange}
                                 value={email}
+                                error={Boolean(helperText.email)}
+                                helperText={
+                                    Boolean(helperText.email) && '이메일 형식이 올바르지 않습니다.'
+                                }
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -123,6 +162,7 @@ export default function SignUp() {
                                 autoComplete="nickname"
                                 onChange={handleChange}
                                 value={nickname}
+                                error={Boolean(helperText.nickname)}
                             />
                         </Grid>
                         <Grid item xs={12}>
@@ -136,6 +176,10 @@ export default function SignUp() {
                                 autoComplete="new-password"
                                 onChange={handleChange}
                                 value={password}
+                                error={Boolean(helperText.password)}
+                                helperText={
+                                    '비밀번호는 6자에서 20자 사이여야하며 영문, 숫자, 특수문자를 모두 포함해야합니다.'
+                                }
                             />
                         </Grid>
                         <Grid item xs={12} sx={{ display: 'flex', alignItems: 'center' }}>
