@@ -61,6 +61,19 @@ class Auth {
             return false;
         }
     };
+
+    verifyPassword = async (password) => {
+        try {
+            const response = await client.post('member/verify-password', {
+                password: password,
+            });
+            console.log('verifyPassword', response);
+            return response.data;
+        } catch (error) {
+            console.log('verifyPassword', error);
+            return false;
+        }
+    };
     editUserPicture = async (picture) => {
         try {
             const formData = new FormData();
