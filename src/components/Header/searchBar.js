@@ -78,6 +78,7 @@ export default function SearchBar() {
                 onChange={handleValue}
                 onKeyDown={onKeyPress}
                 onFocus={() => {
+                    console.log('focus');
                     setOnFocus(true);
                 }}
                 onBlur={(e) => {
@@ -88,8 +89,6 @@ export default function SearchBar() {
                         return;
                     }
                     setOnFocus(false);
-
-                    // ref.current(false);
                 }}
             />
             {recommendList.length !== 0 && onFocus && (
@@ -100,7 +99,6 @@ export default function SearchBar() {
                             selected={index === selected}
                             tabIndex={0}
                             onClick={(e) => {
-                                setOnFocus(true);
                                 navigate(`/${data.memberId}`);
                             }}>
                             {data.profileImage ? (

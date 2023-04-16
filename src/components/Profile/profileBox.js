@@ -39,7 +39,7 @@ export default function ProfileBox(props) {
                     alert('유저 정보를 불러오는데 실패했습니다.');
                 }
             });
-            if (rootUser.id !== props.userId) {
+            if (rootUser.id.toString() !== props.userId.toString()) {
                 followService.getFollowing(rootUser.id).then((res) => {
                     if (res) {
                         res.data.some((e) => e.followingMemberId === props.userId) &&
@@ -118,7 +118,7 @@ export default function ProfileBox(props) {
                                 </Box>
                             </Box>
                         </Box>
-                        {rootUser.id !== props.userId && (
+                        {rootUser.id.toString() !== props.userId.toString() && (
                             <Box sx={{ width: '100%', textAlign: 'center', marginTop: 1 }}>
                                 <Button
                                     sx={{

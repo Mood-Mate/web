@@ -6,7 +6,12 @@ export const parseDate = (raw, type) => {
     const hour = date.getHours();
     const minute = date.getMinutes();
     if (type === 'birth') {
-        return `${year}년 ${month}월 ${day}일`;
+        return `${year}년 ${month + 1}월 ${day}일`;
+    }
+    if (type === 'date') {
+        return `${year}-${(month + 1).toString().padStart(2, '0')}-${day
+            .toString()
+            .padStart(2, '0')}`;
     }
     return `${year}-${month}-${day} ${hour}:${minute}`;
 };
