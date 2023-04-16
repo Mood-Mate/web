@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Box } from '@mui/material';
 import PrimarySearchAppBar from '../components/header';
 import AccountSetting from '../components/UserSetting/accountSetting';
-import ProfileSetting from '../components/UserSetting/profileSetting';
 import { useLocation } from 'react-router-dom';
 
 export default function UserSettings() {
@@ -27,7 +26,7 @@ export default function UserSettings() {
                             {isAccountSettings ? '계정 설정' : '프로필 설정'}
                         </h1>
                     </Box>
-                    {isAccountSettings ? <AccountSetting /> : <ProfileSetting />}
+                    <AccountSetting />
                 </Box>
             </Box>
         </>
