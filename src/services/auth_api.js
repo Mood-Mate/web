@@ -38,7 +38,6 @@ class Auth {
     editUser = async (id, key, value) => {
         try {
             let data;
-            const formData = new FormData();
 
             if (key === 'dateOfBirth') {
                 const date = new Date(value);
@@ -48,23 +47,32 @@ class Auth {
                     month: (date.getMonth() + 1).toString(),
                     dayOfMonth: date.getDate().toString(),
                 };
-            } else if (key === 'picture') {
-                formData.append('picture', value);
             } else {
                 data = {
                     memberId: id,
                     [key]: value,
                 };
             }
-            const response = await client.patch('member', key === 'picture' ? formData : data);
+            const response = await client.patch('member', data);
             console.log('editUser', response);
-            return response;
+            return true;
         } catch (error) {
             console.log('editUser', error);
-            return null;
+            return false;
         }
     };
-
+    editUserPicture = async (picture) => {
+        try {
+            const formData = new FormData();
+            formData.append('picture', picture);
+            const response = await client.patch('member/picture', formData);
+            console.log('editUserPicture', response);
+            return response.data;
+        } catch (error) {
+            console.log('editUserPicture', error);
+            return false;
+        }
+    };
     createUser = async ({ email, password, name, nickname, gender, birth }) => {
         try {
             const data = {
