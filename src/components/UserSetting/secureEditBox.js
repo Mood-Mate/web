@@ -51,7 +51,7 @@ export default function SecureEditBox({ userId }) {
                     }
                 });
             } else {
-                authService.editUser(userId, 'passwordConfirm', content.password).then((res) => {
+                authService.verifyPassword(content.password).then((res) => {
                     if (res) {
                         setCheckPassWord(true);
                     } else {
