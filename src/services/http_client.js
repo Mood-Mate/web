@@ -6,6 +6,7 @@ const httpClient = axios.create({
     //timeout: 1000,
     headers: { 'Content-Type': 'application/json' },
     withCredentials: true,
+    referrerPolicy: 'no-referrer-when-downgrade',
 });
 
 httpClient.interceptors.request.use(
