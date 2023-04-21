@@ -55,7 +55,7 @@ export default function MainRouter() {
                     <Route exact path="/" element={<PrivateRoute component={<Home />} />} />
                     <Route path="/login" element={<SignIn />} />
                     <Route path="/signup" element={<SignUp />} />
-                    <Route exact path="/login/oauth2/code/:provider/*" element={<OauthPage />} />
+                    <Route path="/login/oauth2/code/:provider" element={<OauthPage />} />
                     <Route path="/:userId" element={<PrivateRoute component={<Profile />} />} />
                     <Route path="/editor" element={<PrivateRoute component={<Editor />} />} />
                     <Route
