@@ -19,7 +19,7 @@ export default function Home() {
     const lastPostElementRef = useCallback(
         (node) => {
             console.log('lastPostElementRef', node, loading, next, observer.current);
-            if (loading || next == null) return;
+            if (loading || next == null || node == null) return;
             if (observer.current) observer.current.disconnect();
             observer.current = new IntersectionObserver((entries) => {
                 if (entries[0].isIntersecting && next != null) {

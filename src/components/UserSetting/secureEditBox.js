@@ -38,7 +38,7 @@ export default function SecureEditBox({ userId }) {
     const handleSubmit = (keyValue) => {
         if (passwordRegex.test(content[keyValue])) {
             //대충 보낸다는 뜻.
-            if (keyValue === 'newPassword') {
+            if (keyValue === 'newPassword' && checkPassWord) {
                 authService.editUser(userId, 'password', content.newPassword).then((res) => {
                     if (res) {
                         setEditable(false);
@@ -50,7 +50,7 @@ export default function SecureEditBox({ userId }) {
                         alert('수정 실패');
                     }
                 });
-            } else {
+            } else if (keyValue === 'password') {
                 authService.verifyPassword(content.password).then((res) => {
                     if (res) {
                         setCheckPassWord(true);
@@ -58,6 +58,8 @@ export default function SecureEditBox({ userId }) {
                         alert('비밀번호가 일치하지 않습니다.');
                     }
                 });
+            } else {
+                alert('현재 비밀번호를 먼저 인증해야합니다.');
             }
         }
     };

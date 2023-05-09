@@ -34,8 +34,8 @@ export default function SignIn() {
                 <SignInForm />
             </Box>
             <Divider sx={{ my: 2 }} />
-            {/*<SocialLoginButton />*/}
-            {/*<Copyright sx={{ mt: 4, mb: 4 }} />*/}
+            <SocialLoginButton />
+            <Copyright sx={{ mt: 4, mb: 4 }} />
         </Container>
     );
 }
