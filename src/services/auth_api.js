@@ -20,7 +20,7 @@ class Auth {
             if (token) {
                 const expires = new Date();
                 expires.setDate(expires.getDate() + 7); //7일동안 쿠키 유지
-                cookie.save('access_token', token, {
+                await cookie.save('access_token', token, {
                     path: '/',
                     expires,
                 });
