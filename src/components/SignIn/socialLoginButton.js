@@ -7,9 +7,9 @@ import * as React from 'react';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-const kakaoLoginUrl = process.env.REACT_APP_API_URL + '/oauth2/authorization/kakao';
-const googleLoginUrl = process.env.REACT_APP_API_URL + '/oauth2/authorization/google';
-const naverLoginUrl = process.env.REACT_APP_API_URL + '/oauth2/authorization/naver';
+const kakaoLoginUrl = process.env.REACT_APP_OAUTH_API_URL + '/oauth2/authorization/kakao';
+const googleLoginUrl = process.env.REACT_APP_OAUTH_API_URL + '/oauth2/authorization/google';
+const naverLoginUrl = process.env.REACT_APP_OAUTH_API_URL + '/oauth2/authorization/naver';
 
 //     `https://kauth.kakao.com/oauth/authorize?client_id=${
 //     process.env.REACT_APP_KAKAO_API_KEY
